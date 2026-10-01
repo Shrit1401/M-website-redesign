@@ -256,9 +256,28 @@ export default function HeroScene() {
         <Environment resolution={512}>
           <color attach="background" args={["#eef4f9"]} />
           <Lightformer form="rect" intensity={3} position={[0, 6, -1]} rotation-x={Math.PI / 2} scale={[12, 1.2, 1]} />
-          <Lightformer form="rect" intensity={2.5} position={[-6, 0, 0]} rotation-y={Math.PI / 2} scale={[0.5, 10, 1]} />
-          <Lightformer form="rect" intensity={2.5} position={[6, 0, -1]} rotation-y={-Math.PI / 2} scale={[0.6, 10, 1]} />
-          <Lightformer form="rect" intensity={1.5} color={BRAND_LIGHT} position={[0, -4, 2]} rotation-x={-Math.PI / 2} scale={[10, 2, 1]} />
+          <Lightformer
+            form="rect"
+            intensity={2.5}
+            position={[-6, 0, 0]}
+            rotation-y={Math.PI / 2}
+            scale={[0.5, 10, 1]}
+          />
+          <Lightformer
+            form="rect"
+            intensity={2.5}
+            position={[6, 0, -1]}
+            rotation-y={-Math.PI / 2}
+            scale={[0.6, 10, 1]}
+          />
+          <Lightformer
+            form="rect"
+            intensity={1.5}
+            color={BRAND_LIGHT}
+            position={[0, -4, 2]}
+            rotation-x={-Math.PI / 2}
+            scale={[10, 2, 1]}
+          />
           <Lightformer form="rect" intensity={1} position={[0, 0, -6]} scale={[4, 10, 1]} />
         </Environment>
       </Canvas>

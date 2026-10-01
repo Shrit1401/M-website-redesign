@@ -1,4 +1,6 @@
-import { AI_SERVICE, NAV, PILLARS, SERVICES, SITE } from "@/lib/content";
+import Link from "next/link";
+import { FOOTER_LINKS, PILLARS, SITE } from "@/lib/content";
+import { SERVICES, getService } from "@/lib/services";
 import { Icon } from "./Icon";
 import { Logo } from "./Logo";
 import { Magnetic, MaskLines, Reveal, Spotlight } from "./Motion";
@@ -31,6 +33,9 @@ export function Pillars() {
   );
 }
 
+const CORE_SERVICES = SERVICES.filter((s) => s.slug !== "ai-optimization");
+const AI_SERVICE = getService("ai-optimization")!;
+
 export function Services() {
   return (
     <section id="services" className="mx-auto max-w-[1400px] px-5 py-28 sm:px-10 lg:py-40">
@@ -42,9 +47,9 @@ export function Services() {
       />
 
       <div className="mt-16 grid gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
-        {SERVICES.map((s, i) => (
-          <Spotlight key={s.title} className="spot group bg-white">
-            <a href="#start" className="flex h-full min-h-64 flex-col p-7 lg:p-8">
+        {CORE_SERVICES.map((s, i) => (
+          <Spotlight key={s.slug} className="spot group bg-white">
+            <Link href={`/services/${s.slug}`} className="flex h-full min-h-64 flex-col p-7 lg:p-8">
               <div className="flex items-start justify-between">
                 <span className="grid size-12 place-items-center rounded-full border border-line text-brand transition-all duration-500 group-hover:border-brand group-hover:bg-brand group-hover:text-white">
                   <Icon name={s.icon} className="size-5" />
@@ -53,12 +58,12 @@ export function Services() {
               </div>
               <h3 className="mt-auto pt-10 text-xl font-medium tracking-tight text-ink">{s.title}</h3>
               <div className="mt-2 flex items-end justify-between gap-4">
-                <p className="text-sm leading-relaxed text-muted">{s.body}</p>
+                <p className="text-sm leading-relaxed text-muted">{s.summary}</p>
                 <span className="shrink-0 -translate-x-2 text-brand opacity-0 transition-all duration-500 group-hover:translate-x-0 group-hover:opacity-100">
                   <Icon name="arrowUpRight" className="size-5" />
                 </span>
               </div>
-            </a>
+            </Link>
           </Spotlight>
         ))}
       </div>
@@ -89,10 +94,19 @@ export function Services() {
                 AI optimization &<br />
                 <span className="font-serif font-normal italic">answer engine</span> optimization
               </h3>
-              <p className="mt-5 max-w-xl leading-relaxed text-white/75">{AI_SERVICE.body}</p>
+              <p className="mt-5 max-w-xl leading-relaxed text-white/75">{AI_SERVICE.summary}</p>
+              <Link
+                href={`/services/${AI_SERVICE.slug}`}
+                className="btn btn-lg group mt-8 bg-white pr-2 text-ink hover:bg-brand-soft"
+              >
+                Explore AI optimization
+                <span className="grid size-7 place-items-center rounded-full bg-brand text-white transition-transform duration-500 group-hover:rotate-45">
+                  <Icon name="arrowUpRight" className="size-4" />
+                </span>
+              </Link>
             </div>
             <ul className="grid gap-2.5 sm:grid-cols-2">
-              {AI_SERVICE.points.map((pt) => (
+              {AI_SERVICE.gets.map((pt) => (
                 <li
                   key={pt}
                   className="flex items-start gap-2.5 rounded-2xl border border-white/15 bg-white/[0.08] p-4 text-sm backdrop-blur-md"
@@ -205,12 +219,12 @@ export function FinalCta() {
             />
             <div className="mt-12">
               <Magnetic>
-                <a href="#start" className="btn btn-lg group bg-white text-ink hover:bg-brand-soft">
+                <Link href="/contact" className="btn btn-lg group bg-white pr-2 text-ink hover:bg-brand-soft">
                   Start a conversation
                   <span className="grid size-7 place-items-center rounded-full bg-brand text-white transition-transform duration-500 group-hover:rotate-45">
                     <Icon name="arrowUpRight" className="size-4" />
                   </span>
-                </a>
+                </Link>
               </Magnetic>
             </div>
             <p className="mt-6 text-sm">
@@ -229,25 +243,40 @@ export function FinalCta() {
 }
 
 export function Footer() {
+  const { address } = SITE;
   return (
-    <footer className="overflow-hidden">
-      <div className="mx-auto flex max-w-[1400px] flex-col gap-8 px-5 py-12 sm:px-10 md:flex-row md:items-center md:justify-between">
-        <Logo sub="Software Solution LLC" />
-        <nav className="flex flex-wrap gap-x-8 gap-y-3 text-sm text-ink-soft" aria-label="Footer">
-          {NAV.map((item) => (
-            <a key={item.href} href={item.href} className="hover:text-brand">
-              {item.label}
+    <footer className="overflow-hidden border-t border-line bg-white">
+      <div className="mx-auto grid max-w-[1400px] gap-12 px-5 pt-16 pb-10 sm:px-10 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
+        <div>
+          <Logo className="h-12 w-auto" />
+          <p className="mt-6 max-w-xs text-sm leading-relaxed text-muted">
+            Software for your next stage of growth — custom software, SaaS, cloud and reliable IT.
+          </p>
+          <address className="mt-6 space-y-2 text-sm text-ink-soft not-italic">
+            <a href={SITE.phoneHref} className="block hover:text-brand">
+              {SITE.phone}
             </a>
-          ))}
-        </nav>
-        <div className="text-sm text-muted md:text-right">
-          <p>© {new Date().getFullYear()} Macro Software Solution LLC</p>
-          <p className="mt-1">SaaS + IT solutions</p>
+            <a href={`mailto:${SITE.email}`} className="block hover:text-brand">
+              {SITE.email}
+            </a>
+            <span className="block text-muted">
+              {address.street}, {address.city}, {address.region} {address.postal}
+            </span>
+            <span className="block text-muted">{SITE.hours}</span>
+          </address>
         </div>
+        <FooterColumn title="Services" links={SERVICES.map((s) => ({ label: s.title, href: `/services/${s.slug}` }))} />
+        {FOOTER_LINKS.map((col) => (
+          <FooterColumn key={col.title} {...col} />
+        ))}
+      </div>
+      <div className="mx-auto flex max-w-[1400px] flex-col gap-2 border-t border-line px-5 py-6 text-xs text-muted sm:flex-row sm:justify-between sm:px-10">
+        <p>© {new Date().getFullYear()} Macro Software Solution LLC. All rights reserved.</p>
+        <p>SaaS + IT solutions · Palatine, Illinois</p>
       </div>
       <p
         aria-hidden
-        className="-mt-[4vw] -mb-[0.22em] text-center text-[27vw] leading-none font-semibold tracking-[-0.07em] select-none"
+        className="-mt-[2vw] -mb-[0.22em] text-center text-[27vw] leading-none font-semibold tracking-[-0.07em] select-none"
         style={{
           background: "linear-gradient(180deg, rgba(0,119,181,0.16), rgba(0,119,181,0.02) 80%)",
           WebkitBackgroundClip: "text",
@@ -258,5 +287,22 @@ export function Footer() {
         macro
       </p>
     </footer>
+  );
+}
+
+function FooterColumn({ title, links }: { title: string; links: { label: string; href: string }[] }) {
+  return (
+    <nav aria-label={title}>
+      <p className="text-xs tracking-[0.2em] text-muted uppercase">{title}</p>
+      <ul className="mt-5 space-y-3">
+        {links.map((l) => (
+          <li key={l.href}>
+            <Link href={l.href} className="text-sm text-ink-soft transition-colors hover:text-brand">
+              {l.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 }

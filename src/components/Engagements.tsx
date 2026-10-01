@@ -1,17 +1,8 @@
-"use client";
-
-import { ENGAGEMENTS, type EngagementId } from "@/lib/content";
+import Link from "next/link";
+import { ENGAGEMENTS } from "@/lib/content";
 import { Icon } from "./Icon";
 import { Reveal, Spotlight } from "./Motion";
 import { SectionHead } from "./SectionHead";
-import { scrollToTarget } from "./SmoothScroll";
-
-export const ENGAGEMENT_EVENT = "macro:engagement";
-
-export function chooseEngagement(id: EngagementId) {
-  window.dispatchEvent(new CustomEvent<EngagementId>(ENGAGEMENT_EVENT, { detail: id }));
-  scrollToTarget("#start");
-}
 
 export function Engagements() {
   return (
@@ -53,7 +44,7 @@ export function Engagements() {
                 Pricing will be revealed shortly
               </p>
 
-              <ul className="mt-6 space-y-3 border-t border-line pt-6">
+              <ul className="mt-6 mb-8 space-y-3 border-t border-line pt-6">
                 {e.points.map((pt) => (
                   <li key={pt} className="flex items-start gap-3 text-sm text-ink-soft">
                     <Icon name="check" className="mt-0.5 size-4 shrink-0 text-brand" />
@@ -62,25 +53,23 @@ export function Engagements() {
                 ))}
               </ul>
 
-              <button
-                type="button"
-                onClick={() => chooseEngagement(e.id)}
-                className={`btn mt-8 w-full justify-between ${e.featured ? "btn-primary" : "btn-outline"}`}
+              <Link
+                href={`/contact?engagement=${e.id}`}
+                className={`btn mt-auto w-full justify-between ${e.featured ? "btn-primary" : "btn-outline"}`}
               >
                 {e.cta} <Icon name="arrowRight" className="size-4" />
-              </button>
+              </Link>
             </Spotlight>
           </Reveal>
         ))}
       </div>
 
-      <button
-        type="button"
-        onClick={() => chooseEngagement("unsure")}
+      <Link
+        href="/contact?engagement=unsure"
         className="card mt-5 flex w-full items-center justify-center gap-2 rounded-3xl px-6 py-6 text-base text-ink-soft transition-colors hover:border-brand/40 hover:text-brand"
       >
         Need a custom solution? Let’s scope it together. <Icon name="arrowUpRight" className="size-4" />
-      </button>
+      </Link>
     </section>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { motion } from "motion/react";
 import { Icon } from "./Icon";
 import { Magnetic, MaskLines } from "./Motion";
@@ -55,17 +56,17 @@ export function Hero() {
 
           <motion.div {...fadeUp(0.8)} className="mt-10 flex flex-wrap items-center gap-3">
             <Magnetic>
-              <a href="#start" className="btn btn-primary btn-lg group">
+              <Link href="/contact" className="btn btn-primary btn-lg group">
                 Start a project
                 <span className="grid size-7 place-items-center rounded-full bg-white/15 transition-transform duration-500 group-hover:rotate-45">
                   <Icon name="arrowUpRight" className="size-4" />
                 </span>
-              </a>
+              </Link>
             </Magnetic>
             <Magnetic strength={0.2}>
-              <a href="#services" className="btn btn-outline btn-lg">
+              <Link href="/services" className="btn btn-outline btn-lg">
                 Explore services
-              </a>
+              </Link>
             </Magnetic>
           </motion.div>
         </div>

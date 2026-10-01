@@ -1,22 +1,28 @@
 # Macro Software Solution LLC
 
-> Macro Software Solution builds custom software, SaaS products, websites, mobile apps and reliable IT infrastructure, and offers AI optimization and answer engine optimization (AEO). All work is custom-quoted; package pricing will be published soon.
+> Macro Software Solution LLC (Palatine, Illinois) builds custom software, SaaS products, websites and mobile apps, manages cloud and IT infrastructure, and offers digital marketing plus AI optimization and answer engine optimization (AEO). All work is custom-quoted; package pricing will be published soon.
+
+Contact: hello@macrosoftwaresolution.com · +1 (224) 298-4659 · 424 N Lake Shore Dr, Palatine, IL 60067 · Mon–Fri 9AM–5PM CST
 
 ## Services
-- SaaS development: platforms built to evolve
-- Cloud & integration: connect tools and infrastructure
-- Custom software: built around your workflows
-- IT infrastructure: keep operations resilient
-- Web development and website maintenance
-- Mobile development
-- Digital marketing
-- AI optimization & answer engine optimization (AEO): structured data, FAQ schema, answer-ready content, AI automation
+- [SaaS Product Development](https://macrosoftwaresolution.com/services/saas-product-development): scalable, secure multi-tenant SaaS platforms
+- [Cloud Solution & Integration](https://macrosoftwaresolution.com/services/cloud-solution-integration): cloud migration, integration and optimization
+- [Custom Software Development](https://macrosoftwaresolution.com/services/custom-software-development): software built around your processes
+- [IT Infrastructure Management](https://macrosoftwaresolution.com/services/it-infrastructure-management): proactive monitoring, security and resource management
+- [Web Development](https://macrosoftwaresolution.com/services/web-development): fast, mobile-friendly, SEO-ready websites
+- [Website Maintenance](https://macrosoftwaresolution.com/services/website-maintenance): updates, security checks, speed monitoring
+- [Digital Marketing](https://macrosoftwaresolution.com/services/digital-marketing): SEO, social, paid ads and performance tracking
+- [Mobile Development](https://macrosoftwaresolution.com/services/mobile-development): iOS and Android apps with secure backends
+- [AI Optimization & AEO](https://macrosoftwaresolution.com/services/ai-optimization): structured data, answer-ready content, AI automation
 
 ## Ways to work together
 - Career Platform: launch-ready career/hiring platform with 1:1 onboarding; client runs their own marketing
 - Hire Macro: end-to-end design and development by the Macro team
 - Modifications & upgrades: changes, fixes and integrations for existing systems
 
-## Contact
-- Email: hello@macrosoftwaresolution.com
-- Website: https://macrosoftwaresolution.com (requirement form at /#start)
+## Key pages
+- [About](https://macrosoftwaresolution.com/about)
+- [FAQ](https://macrosoftwaresolution.com/faq)
+- [Blog](https://macrosoftwaresolution.com/blog)
+- [Careers](https://macrosoftwaresolution.com/careers)
+- [Contact / requirement form](https://macrosoftwaresolution.com/contact)

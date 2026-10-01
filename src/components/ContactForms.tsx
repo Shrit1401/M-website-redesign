@@ -1,11 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ENGAGEMENT_LABELS, REQUIREMENT_SERVICES, SITE, type EngagementId } from "@/lib/content";
-import { ENGAGEMENT_EVENT } from "./Engagements";
 import { Icon } from "./Icon";
-import { Reveal } from "./Motion";
-import { SectionHead } from "./SectionHead";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -74,16 +71,6 @@ function RequirementForm({ initialEngagement }: { initialEngagement: EngagementI
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
 
-  // Engagement cards elsewhere on the page preselect the engagement type.
-  useEffect(() => {
-    const onPick = (e: Event) => {
-      setForm((f) => withEngagement(f, (e as CustomEvent<EngagementId>).detail));
-      setStep((s) => (s === 0 ? 0 : 1));
-    };
-    window.addEventListener(ENGAGEMENT_EVENT, onPick);
-    return () => window.removeEventListener(ENGAGEMENT_EVENT, onPick);
-  }, []);
-
   const set = <K extends keyof typeof form>(k: K, v: (typeof form)[K]) => setForm((f) => ({ ...f, [k]: v }));
   const toggleService = (s: string) =>
     set("services", form.services.includes(s) ? form.services.filter((x) => x !== s) : [...form.services, s]);
@@ -110,7 +97,7 @@ function RequirementForm({ initialEngagement }: { initialEngagement: EngagementI
         title="Requirements received."
         body="Thanks — our team will review your project and reply with next steps and a custom quote within 1–2 business days."
         onReset={() => {
-          setForm(EMPTY_REQ);
+          setForm(initialEngagement ? withEngagement(EMPTY_REQ, initialEngagement) : EMPTY_REQ);
           setStep(0);
           setStatus("idle");
         }}
@@ -341,8 +328,8 @@ function RequirementForm({ initialEngagement }: { initialEngagement: EngagementI
 
 const EMPTY_INQ = { name: "", email: "", topic: "General question", message: "", company_url: "" };
 
-function InquiryForm() {
-  const [form, setForm] = useState(EMPTY_INQ);
+function InquiryForm({ initialTopic }: { initialTopic?: string }) {
+  const [form, setForm] = useState(() => (initialTopic ? { ...EMPTY_INQ, topic: initialTopic } : EMPTY_INQ));
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
   const set = (k: keyof typeof form, v: string) => setForm((f) => ({ ...f, [k]: v }));
@@ -408,11 +395,9 @@ function InquiryForm() {
       <label className="sm:col-span-2">
         <Label>Topic</Label>
         <select className="field" value={form.topic} onChange={(e) => set("topic", e.target.value)}>
-          <option>General question</option>
-          <option>Existing project support</option>
-          <option>Partnership</option>
-          <option>Careers</option>
-          <option>Other</option>
+          {INQUIRY_TOPICS.map((t) => (
+            <option key={t}>{t}</option>
+          ))}
         </select>
       </label>
       <label className="sm:col-span-2">
@@ -439,80 +424,49 @@ function InquiryForm() {
 
 /* ---------------- Section ---------------- */
 
-export function ContactForms() {
-  const [tab, setTab] = useState<"requirements" | "inquiry">("requirements");
-  const [engagement, setEngagement] = useState<EngagementId | null>(null);
+export type ContactTab = "requirements" | "inquiry";
+export const INQUIRY_TOPICS = ["General question", "Existing project support", "Partnership", "Careers", "Other"];
 
-  useEffect(() => {
-    const onPick = (e: Event) => {
-      setTab("requirements");
-      setEngagement((e as CustomEvent<EngagementId>).detail);
-    };
-    window.addEventListener(ENGAGEMENT_EVENT, onPick);
-    return () => window.removeEventListener(ENGAGEMENT_EVENT, onPick);
-  }, []);
+/** Tabbed card holding the requirement form and the general inquiry form. Initial state comes from the URL. */
+export function ContactForms({
+  initialTab = "requirements",
+  initialEngagement = null,
+  initialTopic,
+}: {
+  initialTab?: ContactTab;
+  initialEngagement?: EngagementId | null;
+  initialTopic?: string;
+}) {
+  const [tab, setTab] = useState<ContactTab>(initialTab);
 
   return (
-    <section id="start" className="mx-auto max-w-[1400px] px-5 py-28 sm:px-10 lg:py-36">
-      <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
-        <div className="lg:sticky lg:top-32 lg:self-start">
-          <SectionHead
-            index="06"
-            eyebrow="Start a project"
-            lines={[
-              "Tell us what",
-              <span key="l" className="font-serif font-normal text-brand italic">
-                you need.
-              </span>,
-            ]}
-          />
-          <p className="mt-6 max-w-md text-lg text-muted">
-            Share your requirements and we’ll come back with a scoped plan and a custom quote — no fixed packages, no
-            guesswork.
-          </p>
-          <ul className="mt-8 space-y-4 text-sm text-ink-soft">
-            {[
-              "Reply within 1–2 business days",
-              "Free discovery call to scope your project",
-              "Transparent, custom quote for your exact needs",
-            ].map((t) => (
-              <li key={t} className="flex items-center gap-3">
-                <span className="grid size-7 place-items-center rounded-full bg-brand-soft text-brand">
-                  <Icon name="check" className="size-3.5" />
-                </span>
-                {t}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <Reveal delay={0.1}>
-          <div className="card rounded-3xl p-6 shadow-[0_40px_80px_-50px_rgba(0,119,181,0.45)] sm:p-10">
-            <div role="tablist" aria-label="Contact type" className="mb-8 inline-flex rounded-full bg-brand-soft p-1">
-              {(
-                [
-                  ["requirements", "Project requirements"],
-                  ["inquiry", "General inquiry"],
-                ] as const
-              ).map(([id, label]) => (
-                <button
-                  key={id}
-                  role="tab"
-                  type="button"
-                  aria-selected={tab === id}
-                  onClick={() => setTab(id)}
-                  className={`rounded-full px-4 py-2 text-sm transition-colors sm:px-5 ${
-                    tab === id ? "bg-white text-ink shadow-sm" : "text-ink-soft hover:text-brand"
-                  }`}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-            {tab === "requirements" ? <RequirementForm initialEngagement={engagement} /> : <InquiryForm />}
-          </div>
-        </Reveal>
+    <div className="card rounded-3xl p-6 shadow-[0_40px_80px_-50px_rgba(0,119,181,0.45)] sm:p-10">
+      <div role="tablist" aria-label="Contact type" className="mb-8 inline-flex rounded-full bg-brand-soft p-1">
+        {(
+          [
+            ["requirements", "Project requirements"],
+            ["inquiry", "General inquiry"],
+          ] as const
+        ).map(([id, label]) => (
+          <button
+            key={id}
+            role="tab"
+            type="button"
+            aria-selected={tab === id}
+            onClick={() => setTab(id)}
+            className={`rounded-full px-4 py-2 text-sm transition-colors sm:px-5 ${
+              tab === id ? "bg-white text-ink shadow-sm" : "text-ink-soft hover:text-brand"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
       </div>
-    </section>
+      {tab === "requirements" ? (
+        <RequirementForm initialEngagement={initialEngagement} />
+      ) : (
+        <InquiryForm initialTopic={initialTopic} />
+      )}
+    </div>
   );
 }

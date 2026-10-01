@@ -1,13 +1,18 @@
 import Image from "next/image";
+import Link from "next/link";
 
-export function Logo({ sub = "Software Solution" }: { sub?: string }) {
+/** The official Macro Software Solution LLC lockup, as used in the live site header. */
+export function Logo({ className = "h-11 w-auto" }: { className?: string }) {
   return (
-    <a href="#top" className="flex items-center gap-3" aria-label="Macro Software Solution — home">
-      <Image src="/macro-icon.png" alt="" width={40} height={40} priority className="size-10" />
-      <span className="leading-tight">
-        <span className="block text-xl font-semibold tracking-tight text-ink">macro</span>
-        <span className="block text-[0.72rem] tracking-wide text-muted">{sub}</span>
-      </span>
-    </a>
+    <Link href="/" className="flex shrink-0 items-center" aria-label="Macro Software Solution LLC — home">
+      <Image
+        src="/macro-logo.png"
+        alt="Macro Software Solution LLC"
+        width={434}
+        height={146}
+        priority
+        className={className}
+      />
+    </Link>
   );
 }
