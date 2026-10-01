@@ -46,11 +46,11 @@ export function About() {
   )
 }
 
-export function Teach() {
+export function JoinUs() {
   return (
     <>
       <section className="container-x pt-24 sm:pt-32">
-        <p className="text-[13px] text-muted">Teach on Revive</p>
+        <p className="text-[13px] text-muted">Join us as an instructor</p>
         <h1 className="display mt-5 text-[52px] sm:text-[88px]">
           Share what you know.
           <br />
@@ -96,7 +96,7 @@ export function Contact() {
         <h1 className="display mt-5 text-[44px] sm:text-[64px]">Get in touch</h1>
         <p className="mt-3 max-w-md text-muted">Questions about a course, a partnership or teaching with us? We usually reply within one business day.</p>
         <dl className="mt-10 space-y-6">
-          {[[Mail, 'Email', 'support@reviveskills.com'], [Phone, 'Phone', '224-386-8661'], [MapPin, 'Office', 'Illinois, United States']].map(([Icon, l, v]) => {
+          {[[Mail, 'Email', 'support@reviveskills.com'], [Phone, 'Phone', '+1-224-386-8661'], [MapPin, 'Office', '424 N Lake Shore Dr, Palatine, IL 60067']].map(([Icon, l, v]) => {
             const I = Icon as typeof Mail
             return (
               <div key={l as string} className="flex gap-4">
@@ -135,6 +135,77 @@ export function Contact() {
             <button className="btn-primary btn-lg w-full">Send message</button>
           </>
         )}
+      </form>
+    </div>
+  )
+}
+
+export function MakePayment() {
+  const { toast } = useStore()
+  const [amount, setAmount] = useState('')
+  const [paying, setPaying] = useState(false)
+  const [ref, setRef] = useState('')
+  const value = Number(amount) || 0
+
+  if (ref) {
+    return (
+      <div className="container-x max-w-lg py-24 text-center">
+        <CheckCircle2 className="mx-auto size-14 text-emerald-500" strokeWidth={1.5} />
+        <h1 className="mt-5 text-3xl font-semibold tracking-[-0.03em]">Payment received</h1>
+        <p className="mt-2 text-muted">Reference <span className="font-mono text-ink dark:text-white">{ref}</span>. A receipt for {money(value)} has been sent to your email.</p>
+        <div className="mt-8 flex justify-center gap-3">
+          <Link to="/" className="btn-primary btn-lg">Back to home</Link>
+          <Link to="/contact" className="btn-secondary btn-lg">Contact support</Link>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="container-x grid gap-12 py-16 lg:grid-cols-[1fr_1.1fr]">
+      <div>
+        <p className="kicker">Make a payment</p>
+        <h1 className="display mt-5 text-[44px] sm:text-[64px]">Pay an invoice</h1>
+        <p className="mt-3 max-w-md text-muted">Use this page to pay an invoice, an instalment or a custom amount agreed with our team. To buy a course, add it to your cart instead.</p>
+        <ul className="mt-10 space-y-4 text-[13px] text-muted">
+          {['Have your invoice or enrolment number ready', 'You will get an email receipt straight away', 'Questions about a charge? Email support@reviveskills.com'].map((t) => (
+            <li key={t} className="flex gap-3"><CheckCircle2 className="size-4 shrink-0 text-brand-500" />{t}</li>
+          ))}
+        </ul>
+      </div>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          if (value <= 0) return toast('Enter an amount greater than $0')
+          setPaying(true)
+          setTimeout(() => {
+            setRef(`RS-${Date.now().toString(36).toUpperCase()}`)
+            toast('Payment received')
+          }, 900)
+        }}
+        className="panel space-y-4 p-6 sm:p-8"
+      >
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div><label className="label" htmlFor="p-name">Full name</label><input id="p-name" required className="field h-11" /></div>
+          <div><label className="label" htmlFor="p-email">Email</label><input id="p-email" required type="email" className="field h-11" /></div>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div><label className="label" htmlFor="p-ref">Invoice or enrolment no.</label><input id="p-ref" className="field h-11" placeholder="Optional" /></div>
+          <div>
+            <label className="label" htmlFor="p-amount">Amount (USD)</label>
+            <div className="relative"><span className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-[13px] text-muted">$</span><input id="p-amount" required inputMode="decimal" value={amount} onChange={(e) => setAmount(e.target.value.replace(/[^0-9.]/g, ''))} className="field h-11 pl-7 tabular-nums" placeholder="0.00" /></div>
+          </div>
+        </div>
+        <div>
+          <label className="label" htmlFor="p-card">Card number</label>
+          <div className="relative"><CreditCard className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-400" /><input id="p-card" className="field h-11 pl-9 tabular-nums" defaultValue="4242 4242 4242 4242" /></div>
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <div><label className="label" htmlFor="p-exp">Expiry</label><input id="p-exp" className="field h-11" defaultValue="12 / 29" /></div>
+          <div><label className="label" htmlFor="p-cvc">CVC</label><input id="p-cvc" className="field h-11" defaultValue="123" /></div>
+        </div>
+        <button disabled={paying} className="btn-primary btn-lg w-full">{paying ? 'Processing…' : value > 0 ? `Pay ${money(value)}` : 'Pay'}</button>
+        <p className="flex items-center justify-center gap-1.5 text-xs text-muted"><Lock className="size-3" /> Demo payment — no money is taken</p>
       </form>
     </div>
   )

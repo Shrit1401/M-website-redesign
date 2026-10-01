@@ -20,23 +20,17 @@ export const CATEGORY_ICONS: Record<string, LucideIcon> = {
 }
 export const categoryIcon = (c: string) => CATEGORY_ICONS[c] ?? (c.length % 2 ? FlaskConical : BookOpen)
 
-export function LogoMark({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 40 40" className={className} aria-hidden>
-      <rect width="40" height="40" rx="11" className="fill-logo-navy dark:fill-white" />
-      <path d="M20 8.5a9 9 0 0 0-5.3 16.3c.8.6 1.2 1.4 1.2 2.4v.6h8.2v-.6c0-1 .4-1.8 1.2-2.4A9 9 0 0 0 20 8.5Z" className="fill-logo-blue" />
-      <path d="M17.7 14.6 15.4 17l2.3 2.4M22.3 14.6l2.3 2.4-2.3 2.4" fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="stroke-white" />
-      <path d="M16.6 31h6.8M17.6 33.6h4.8" strokeWidth="1.7" strokeLinecap="round" className="stroke-logo-blue" />
-    </svg>
-  )
-}
-
+// The official Revive Skills logo (from reviveskills.com). Its navy outlines vanish on dark
+// backgrounds, so dark contexts show the mark on a white tile next to a text wordmark.
 export function Logo({ className, light }: { className?: string; light?: boolean }) {
   return (
-    <Link to="/" className={clsx('inline-flex shrink-0 items-center gap-2', className)} aria-label="Revive Skills home">
-      <LogoMark className="size-6" />
-      <span className={clsx('text-[15px] font-semibold tracking-[-0.02em]', light ? 'text-white' : 'text-ink')}>
-        Revive<span className="font-normal text-muted"> Skills</span>
+    <Link to="/" className={clsx('inline-flex shrink-0 items-center', className)} aria-label="Revive Skills home">
+      <img src="/assets/revive-logo.png" alt="" className={clsx('h-10 w-auto', light ? 'hidden' : 'dark:hidden')} />
+      <span className={clsx('items-center gap-2', light ? 'flex' : 'hidden dark:flex')}>
+        <span className="grid size-8 place-items-center rounded-lg bg-white p-1">
+          <img src="/assets/revive-mark.png" alt="" className="h-full w-auto" />
+        </span>
+        <span className="text-[13px] leading-[1.05] font-bold tracking-wide text-logo-blue">REVIVE<br />SKILLS</span>
       </span>
     </Link>
   )

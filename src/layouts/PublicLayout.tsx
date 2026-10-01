@@ -110,9 +110,11 @@ function Navbar() {
     nav(q.trim() ? `/courses?q=${encodeURIComponent(q.trim())}` : '/courses')
   }
   const links = [
+    { to: '/about-us', label: 'About Us' },
     { to: '/courses', label: 'Courses' },
-    { to: '/about', label: 'About' },
-    ...(!user || user.role === 'student' ? [{ to: '/teach', label: 'Teach' }] : []),
+    ...(!user || user.role === 'student' ? [{ to: '/join-us', label: 'Join Us' }] : []),
+    { to: '/news', label: 'News' },
+    { to: '/contact', label: 'Contact' },
   ]
   const linkCls = ({ isActive }: { isActive: boolean }) => clsx('text-[13px] transition-colors', isActive ? 'text-ink' : 'text-muted hover:text-ink')
 
@@ -120,7 +122,7 @@ function Navbar() {
     <header className="sticky top-0 z-40 border-b border-line bg-white/80 backdrop-blur-xl dark:bg-[#0a083b]/80">
       <div className="container-x flex h-14 items-center gap-8">
         <Logo />
-        <nav className="hidden items-center gap-7 md:flex">
+        <nav className="hidden items-center gap-6 lg:flex">
           <CategoryMenu />
           {links.map((l) => <NavLink key={l.to} to={l.to} end className={linkCls}>{l.label}</NavLink>)}
         </nav>
@@ -153,13 +155,13 @@ function Navbar() {
               <Link to="/signup" className="btn-primary ml-1 h-8">Sign up</Link>
             </>
           )}
-          <button onClick={() => setMobile(!mobile)} className="btn-icon md:hidden" aria-label="Menu" aria-expanded={mobile}>
+          <button onClick={() => setMobile(!mobile)} className="btn-icon lg:hidden" aria-label="Menu" aria-expanded={mobile}>
             {mobile ? <X className="size-4" /> : <Menu className="size-4" />}
           </button>
         </div>
       </div>
       {mobile && (
-        <div className="animate-rise border-t border-line px-5 pt-4 pb-6 md:hidden">
+        <div className="animate-rise border-t border-line px-5 pt-4 pb-6 lg:hidden">
           <form onSubmit={search} className="relative mb-5">
             <Search className="pointer-events-none absolute top-1/2 left-3 size-3.5 -translate-y-1/2 text-faint" />
             <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search courses" className="field h-10 rounded-full pl-8" />
@@ -182,7 +184,7 @@ function Footer() {
   const { db } = useStore()
   const cols = [
     { title: 'Learn', links: db.categories.slice(0, 5).map((c) => ({ to: `/courses?category=${encodeURIComponent(c)}`, label: c })) },
-    { title: 'Company', links: [{ to: '/about', label: 'About' }, { to: '/teach', label: 'Teach' }, { to: '/contact', label: 'Contact' }, { to: '/courses', label: 'All courses' }] },
+    { title: 'Company', links: [{ to: '/about-us', label: 'About Us' }, { to: '/courses', label: 'Courses' }, { to: '/join-us', label: 'Join Us' }, { to: '/news', label: 'News' }, { to: '/contact', label: 'Contact' }, { to: '/make-a-payment', label: 'Make a Payment' }] },
     { title: 'Demo', links: [{ to: '/login?demo=student', label: 'Student view' }, { to: '/login?demo=tutor', label: 'Tutor view' }, { to: '/login?demo=admin', label: 'Admin view' }] },
   ]
   return (
@@ -191,7 +193,7 @@ function Footer() {
         <div>
           <Logo />
           <p className="mt-4 max-w-xs text-[13px] leading-relaxed text-muted">Expert-led, career-focused courses. Pursue your passion — keep learning.</p>
-          <p className="mt-6 text-[13px] text-muted">support@reviveskills.com<br />224-386-8661</p>
+          <p className="mt-6 text-[13px] text-muted">support@reviveskills.com<br />+1-224-386-8661<br />424 N Lake Shore Dr, Palatine, IL 60067</p>
         </div>
         {cols.map((c) => (
           <div key={c.title}>

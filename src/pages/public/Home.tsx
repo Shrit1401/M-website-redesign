@@ -113,7 +113,7 @@ function Instructors() {
     <section className="container-x pt-40">
       <div className="flex items-end justify-between gap-6">
         <h2 className="text-[32px] font-semibold tracking-[-0.04em] sm:text-[40px]">Instructors</h2>
-        <Link to="/teach" className="group mb-2 inline-flex items-center gap-1 text-[13px] text-muted hover:text-ink">Teach on Revive <ArrowRight className="size-3.5 transition group-hover:translate-x-0.5" /></Link>
+        <Link to="/join-us" className="group mb-2 inline-flex items-center gap-1 text-[13px] text-muted hover:text-ink">Teach on Revive <ArrowRight className="size-3.5 transition group-hover:translate-x-0.5" /></Link>
       </div>
       <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
         {tutors.map((t) => {

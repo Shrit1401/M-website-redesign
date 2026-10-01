@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AccountPage } from './components/AccountForm'
 import { Toaster } from './components/ui'
 import DashboardLayout, { RequireRole } from './layouts/DashboardLayout'
@@ -8,7 +8,8 @@ import { Login, Signup } from './pages/public/Auth'
 import CourseDetail from './pages/public/CourseDetail'
 import Courses from './pages/public/Courses'
 import Home from './pages/public/Home'
-import { About, Cart, CheckoutSuccess, Contact, NotFound, Teach } from './pages/public/Misc'
+import { About, Cart, CheckoutSuccess, Contact, JoinUs, MakePayment, NotFound } from './pages/public/Misc'
+import { News, NewsPost } from './pages/public/News'
 import Player from './pages/student/Player'
 import { MyLearning, Orders, StudentOverview, Wishlist } from './pages/student/Student'
 import CourseEditor from './pages/tutor/CourseEditor'
@@ -24,9 +25,14 @@ export default function App() {
             <Route index element={<Home />} />
             <Route path="courses" element={<Courses />} />
             <Route path="courses/:id" element={<CourseDetail />} />
-            <Route path="about" element={<About />} />
-            <Route path="teach" element={<Teach />} />
+            <Route path="about-us" element={<About />} />
+            <Route path="join-us" element={<JoinUs />} />
             <Route path="contact" element={<Contact />} />
+            <Route path="news" element={<News />} />
+            <Route path="news/:slug" element={<NewsPost />} />
+            <Route path="make-a-payment" element={<MakePayment />} />
+            <Route path="about" element={<Navigate to="/about-us" replace />} />
+            <Route path="teach" element={<Navigate to="/join-us" replace />} />
             <Route path="cart" element={<Cart />} />
             <Route path="checkout/success" element={<RequireRole role="student"><CheckoutSuccess /></RequireRole>} />
             <Route path="*" element={<NotFound />} />
