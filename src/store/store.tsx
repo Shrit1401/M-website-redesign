@@ -1,3 +1,5 @@
+'use client'
+
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { createSeed } from '../data/seed'
 import type { Course, DB, Enrollment, Role, User } from '../data/types'

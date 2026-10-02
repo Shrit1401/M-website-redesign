@@ -1,10 +1,12 @@
+'use client'
+
 import clsx from 'clsx'
 import {
   BarChart3, Bell, BookOpen, Compass, CreditCard, FolderTree, GraduationCap, Heart, LayoutDashboard, Menu, PlusCircle,
   Receipt, Settings, ShoppingCart, User as UserIcon, Users, Wallet, X, type LucideIcon,
 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
-import { Link, Navigate, NavLink, Outlet, useLocation } from 'react-router-dom'
+import { Link, Navigate, NavLink, useLocation } from '@/lib/router'
 import { Avatar, Logo } from '../components/ui'
 import type { Role } from '../data/types'
 import { date, homeFor } from '../lib/utils'
@@ -171,7 +173,7 @@ export function RequireRole({ role, children }: { role: Role; children: React.Re
   return <>{children}</>
 }
 
-export default function DashboardLayout({ role }: { role: Role }) {
+export default function DashboardLayout({ role, children }: { role: Role; children: React.ReactNode }) {
   const [open, setOpen] = useState(false)
   const { pathname } = useLocation()
   useEffect(() => { window.scrollTo(0, 0) }, [pathname])
@@ -194,7 +196,7 @@ export default function DashboardLayout({ role }: { role: Role }) {
           </div>
         )}
         <div className="min-w-0">
-          <header className="sticky top-0 z-30 flex h-14 items-center gap-2 border-b border-line bg-white/80 px-4 backdrop-blur-xl sm:px-8 dark:bg-[#0a083b]/80">
+          <header className="sticky top-0 z-30 flex h-14 items-center gap-2 border-b border-line bg-white px-4 sm:px-8 dark:bg-[#0a083b]">
             <button onClick={() => setOpen(true)} className="btn-icon -ml-2 lg:hidden" aria-label="Open menu">
               <Menu className="size-4" />
             </button>
@@ -207,7 +209,7 @@ export default function DashboardLayout({ role }: { role: Role }) {
             </div>
           </header>
           <main className="animate-rise mx-auto max-w-[1120px] px-5 py-10 sm:px-10" key={pathname}>
-            <Outlet />
+            {children}
           </main>
         </div>
       </div>

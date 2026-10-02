@@ -1,7 +1,9 @@
+'use client'
+
 import clsx from 'clsx'
 import { ChevronDown, LayoutDashboard, LogOut, Menu, Search, ShoppingCart, User as UserIcon, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
-import { Link, NavLink, Outlet, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate, useSearchParams } from '@/lib/router'
 import { Avatar, Logo } from '../components/ui'
 import { homeFor } from '../lib/utils'
 import { useStore } from '../store/store'
@@ -119,7 +121,7 @@ function Navbar() {
   const linkCls = ({ isActive }: { isActive: boolean }) => clsx('text-[13px] transition-colors', isActive ? 'text-ink' : 'text-muted hover:text-ink')
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-white/80 backdrop-blur-xl dark:bg-[#0a083b]/80">
+    <header className="sticky top-0 z-40 border-b border-line bg-white dark:bg-[#0a083b]">
       <div className="container-x flex h-14 items-center gap-8">
         <Logo />
         <nav className="hidden items-center gap-6 lg:flex">
@@ -212,14 +214,14 @@ function Footer() {
   )
 }
 
-export default function PublicLayout() {
+export default function PublicLayout({ children }: { children: React.ReactNode }) {
   const { pathname } = useLocation()
   useEffect(() => { window.scrollTo(0, 0) }, [pathname])
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
       <main className="flex-1">
-        <Outlet />
+        {children}
       </main>
       <Footer />
     </div>

@@ -1,10 +1,12 @@
+'use client'
+
 import clsx from 'clsx'
 import {
   BookOpen, Briefcase, Code2, Cog, Database, FlaskConical, HeartPulse, Lock, MessageCircle, Music, Scale, Star, X,
   type LucideIcon,
 } from 'lucide-react'
 import { useEffect, useState, type ReactNode } from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from '@/lib/router'
 import { hueFrom, initials } from '../lib/utils'
 import { useStore } from '../store/store'
 

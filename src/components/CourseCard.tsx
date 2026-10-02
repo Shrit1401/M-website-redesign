@@ -1,6 +1,8 @@
+'use client'
+
 import clsx from 'clsx'
 import { Heart } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link } from '@/lib/router'
 import type { Course } from '../data/types'
 import { duration, money, totalMinutes } from '../lib/utils'
 import { useStore } from '../store/store'

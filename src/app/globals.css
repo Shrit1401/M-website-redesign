@@ -1,0 +1,176 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Revive Skills palette — taken from reviveskills.com:
+ *   headings #1C244B · body #324A6D · muted #57586E · accent #467FF7
+ *   surfaces #F9FAFD / #F3F5F8 · dark background #0A083B (their "deep navy blue")
+ * Legacy token names (brand, navy, slate…) map onto this scale.
+ */
+@theme {
+  --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  --color-ink: #1c244b;
+  --color-body: #324a6d;
+  --color-muted: #57586e;
+  --color-faint: #9aa3b5;
+  --color-line: #eceff5;
+  --color-surface: #f9fafd;
+  --color-on-brand: #ffffff;
+
+  --color-brand-50: #eef3fe;
+  --color-brand-100: #dce6fd;
+  --color-brand-200: #bcd0fb;
+  --color-brand-300: #8fb0fa;
+  --color-brand-400: #6a96f8;
+  --color-brand-500: #467ff7;
+  --color-brand-600: #3a6fe6;
+  --color-brand-700: #2b56c4;
+  --color-navy: #1c244b;
+  --color-navy-2: #232b52;
+  --color-star: #1c244b;
+  --color-logo-navy: #0b3254;
+  --color-logo-blue: #2097ea;
+
+  --color-slate-50: #f9fafd;
+  --color-slate-100: #f3f5f8;
+  --color-slate-200: #e3e8f0;
+  --color-slate-300: #c8d5dc;
+  --color-slate-400: #9aa3b5;
+  --color-slate-500: #6b7a94;
+  --color-slate-600: #57586e;
+  --color-slate-700: #324a6d;
+  --color-slate-800: #232b52;
+  --color-slate-900: #1c244b;
+  --color-slate-950: #0a083b;
+
+  --shadow-soft: 0 0 0 1px rgba(28, 36, 75, 0.05);
+  --shadow-lift: 0 0 0 1px rgba(28, 36, 75, 0.06), 0 12px 32px -12px rgba(28, 36, 75, 0.16);
+
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.dark {
+  --color-ink: #f3f5f8;
+  --color-body: #c8d0e4;
+  --color-muted: #9aa3c7;
+  --color-faint: #5d6392;
+  --color-line: #1d1b52;
+  --color-surface: #100e45;
+  --color-on-brand: #0a083b;
+
+  --color-brand-50: #16145a;
+  --color-brand-100: #1f2270;
+  --color-brand-500: #6e9bff;
+  --color-brand-600: #86acff;
+  --color-brand-700: #a9c3ff;
+  --color-navy: #f3f5f8;
+  --color-navy-2: #c8d0e4;
+  --color-star: #f3f5f8;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-white font-sans text-ink;
+    font-feature-settings: "cv11", "ss01", "ss03";
+  }
+  .dark body {
+    @apply bg-[#0a083b];
+  }
+  ::selection {
+    background: var(--color-brand-100);
+    color: var(--color-ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
+  }
+  h1, h2, h3 {
+    letter-spacing: -0.025em;
+  }
+}
+
+@utility panel {
+  @apply rounded-2xl bg-[#f6f8fb];
+}
+@utility btn {
+  @apply inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-full px-4 text-[13px] font-medium whitespace-nowrap transition-[background-color,color,border-color,opacity] duration-150 disabled:pointer-events-none disabled:opacity-40;
+}
+@utility btn-primary {
+  @apply btn bg-brand-500 text-white hover:bg-brand-600 dark:text-[#0a083b];
+}
+@utility btn-dark {
+  @apply btn bg-ink text-on-brand hover:opacity-90;
+}
+@utility btn-secondary {
+  @apply btn border border-line bg-transparent text-ink hover:border-slate-300 hover:bg-surface dark:hover:border-[#2c2a6b];
+}
+@utility btn-ghost {
+  @apply btn text-muted hover:text-ink;
+}
+@utility btn-lg {
+  @apply h-11 px-5 text-sm;
+}
+@utility btn-sm {
+  @apply h-8 px-3 text-xs;
+}
+@utility btn-icon {
+  @apply btn w-9 px-0 text-muted hover:bg-surface hover:text-ink;
+}
+@utility field {
+  @apply h-9 w-full rounded-lg border border-line bg-transparent px-3 text-[13px] text-ink outline-none transition-colors placeholder:text-faint hover:border-slate-300 focus:border-brand-500 focus:ring-3 focus:ring-brand-500/12 dark:hover:border-[#2c2a6b];
+}
+@utility field-area {
+  @apply field h-auto py-2.5;
+}
+@utility label {
+  @apply mb-1.5 block text-xs font-medium text-muted;
+}
+@utility tag {
+  @apply inline-flex items-center gap-1.5 text-xs font-medium;
+}
+@utility kicker {
+  @apply text-xs font-medium text-muted;
+}
+@utility container-x {
+  @apply mx-auto w-full max-w-[1200px] px-5 sm:px-8;
+}
+@utility display {
+  @apply font-semibold tracking-[-0.045em] text-ink;
+  line-height: 0.98;
+}
+@utility line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Photography is shown in black & white and warms to colour on hover. */
+.mono img,
+img.mono {
+  filter: grayscale(1) contrast(1.02);
+  transition: filter 0.6s var(--ease-out), transform 0.8s var(--ease-out);
+}
+.group:hover .mono img,
+.group:hover img.mono,
+.mono:hover img {
+  filter: grayscale(0);
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+.animate-rise { animation: rise 0.5s var(--ease-out) both; }
+
+@media print {
+  body * { visibility: hidden; }
+  .printable, .printable * { visibility: visible; }
+  .printable { position: fixed; inset: 0; margin: auto; height: fit-content; }
+}
