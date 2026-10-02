@@ -41,7 +41,7 @@ export function Header() {
       <div
         className={`mx-auto flex h-16 max-w-[1400px] items-center justify-between rounded-full pr-2 pl-5 transition-all duration-500 sm:pl-6 ${
           scrolled || open
-            ? "border border-white/60 bg-white/75 shadow-[0_10px_40px_-15px_rgba(10,22,34,0.25)] backdrop-blur-xl"
+            ? "border border-line bg-white shadow-[0_10px_40px_-15px_rgba(10,22,34,0.25)]"
             : "border border-transparent"
         }`}
       >
@@ -64,7 +64,7 @@ export function Header() {
                 </Link>
                 {/* Mega-menu: opens on hover/focus-within */}
                 <div className="invisible absolute top-full left-1/2 w-[640px] -translate-x-1/2 pt-3 opacity-0 transition-all duration-300 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
-                  <div className="grid grid-cols-2 gap-1 rounded-3xl border border-line bg-white/95 p-3 shadow-[0_30px_60px_-20px_rgba(10,22,34,0.3)] backdrop-blur-xl">
+                  <div className="grid grid-cols-2 gap-1 rounded-3xl border border-line bg-white p-3 shadow-[0_30px_60px_-20px_rgba(10,22,34,0.3)]">
                     {SERVICES.map((s) => (
                       <Link
                         key={s.slug}
@@ -136,7 +136,7 @@ export function Header() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="mx-auto mt-2 max-h-[calc(100svh-6rem)] max-w-[1400px] overflow-y-auto rounded-3xl border border-white/60 bg-white/95 px-6 pb-6 shadow-xl backdrop-blur-xl lg:hidden"
+            className="mx-auto mt-2 max-h-[calc(100svh-6rem)] max-w-[1400px] overflow-y-auto rounded-3xl border border-line bg-white px-6 pb-6 shadow-xl lg:hidden"
             aria-label="Mobile"
           >
             {NAV.map((item) => (

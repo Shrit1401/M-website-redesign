@@ -97,18 +97,20 @@ export const ENGAGEMENTS: {
   points: string[];
   cta: string;
   featured?: boolean;
+  demo?: { label: string; href: string };
 }[] = [
   {
     id: "career",
-    name: "Career Platform",
-    tagline: "A launch-ready platform with 1:1 guidance. You run the marketing.",
+    name: "Custom SaaS Product",
+    tagline: "Your own launch-ready software product with 1:1 guidance. You run the marketing.",
     points: [
-      "Branded career / hiring platform",
+      "Branded SaaS product / software, built for you",
       "1:1 onboarding & setup sessions",
       "You handle marketing in-house",
       "Hosting, security & updates",
     ],
-    cta: "Discuss Career Platform",
+    cta: "Discuss your SaaS product",
+    demo: { label: "See an example: My Career Twin", href: "/career" },
   },
   {
     id: "hire",
@@ -139,11 +141,20 @@ export const ENGAGEMENTS: {
 ];
 
 export const ENGAGEMENT_LABELS: Record<EngagementId, string> = {
-  career: "Career Platform (1:1, we market ourselves)",
+  career: "Custom SaaS product / software (1:1, we market ourselves)",
   hire: "Hire Macro for development",
   modify: "Modifications / upgrades to an existing system",
   unsure: "Not sure yet — help me decide",
 };
+
+export const INQUIRY_TOPICS = [
+  "General question",
+  "Existing project support",
+  "Partnership",
+  "Careers",
+  "Job search marketing",
+  "Other",
+];
 
 export const REQUIREMENT_SERVICES = [
   "SaaS development",
@@ -182,7 +193,7 @@ export const FAQS: Faq[] = [
   {
     category: "Getting started",
     q: "Can we do the marketing ourselves?",
-    a: "Absolutely. With the Career Platform engagement we set up the platform and guide your team through 1:1 sessions, while you run marketing in-house. If you’d prefer, we can also handle digital marketing for you.",
+    a: "Absolutely. With the Custom SaaS Product engagement we set up your product and guide your team through 1:1 sessions, while you run marketing in-house. If you’d prefer, we can also handle digital marketing for you.",
   },
   {
     category: "Services",

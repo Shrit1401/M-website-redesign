@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { ContactForms, INQUIRY_TOPICS, type ContactTab } from "@/components/ContactForms";
+import { ContactForms, type ContactTab } from "@/components/ContactForms";
 import { Icon, type IconName } from "@/components/Icon";
 import { Reveal } from "@/components/Motion";
 import { Accent, PageHero } from "@/components/PageHero";
-import { ENGAGEMENT_LABELS, SITE, type EngagementId } from "@/lib/content";
+import { ENGAGEMENT_LABELS, INQUIRY_TOPICS, SITE, type EngagementId } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Contact us — Get a custom quote",

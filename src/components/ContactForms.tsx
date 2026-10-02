@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ENGAGEMENT_LABELS, REQUIREMENT_SERVICES, SITE, type EngagementId } from "@/lib/content";
+import { ENGAGEMENT_LABELS, INQUIRY_TOPICS, REQUIREMENT_SERVICES, SITE, type EngagementId } from "@/lib/content";
 import { Icon } from "./Icon";
 
 type Status = "idle" | "sending" | "sent" | "error";
@@ -425,7 +425,6 @@ function InquiryForm({ initialTopic }: { initialTopic?: string }) {
 /* ---------------- Section ---------------- */
 
 export type ContactTab = "requirements" | "inquiry";
-export const INQUIRY_TOPICS = ["General question", "Existing project support", "Partnership", "Careers", "Other"];
 
 /** Tabbed card holding the requirement form and the general inquiry form. Initial state comes from the URL. */
 export function ContactForms({

@@ -59,6 +59,14 @@ export function Engagements() {
               >
                 {e.cta} <Icon name="arrowRight" className="size-4" />
               </Link>
+              {e.demo && (
+                <Link
+                  href={e.demo.href}
+                  className="mt-3 inline-flex items-center justify-center gap-1.5 text-sm text-ink-soft transition-colors hover:text-brand"
+                >
+                  {e.demo.label} <Icon name="arrowUpRight" className="size-3.5" />
+                </Link>
+              )}
             </Spotlight>
           </Reveal>
         ))}
