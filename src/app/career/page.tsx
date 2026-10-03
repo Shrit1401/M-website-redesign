@@ -19,7 +19,7 @@ const FEATURES = [
   { icon: "shield", title: "Private by default", body: "Your data stays yours, shared only when you choose." },
 ] as const;
 
-const JOB_HELP_HREF = "/contact?tab=inquiry&topic=Job%20search%20marketing";
+const JOB_HELP_HREF = "/contact?topic=Job%20search%20marketing";
 
 const JOB_MARKETING = [
   "Resume & LinkedIn rewritten to get noticed",
@@ -99,7 +99,7 @@ export default function CareerPage() {
         </Reveal>
 
         <Link
-          href="/contact?engagement=career"
+          href="/quote?engagement=career"
           className="card mt-16 flex w-full items-center justify-center gap-2 rounded-3xl px-6 py-6 text-base text-ink-soft transition-colors hover:border-brand/40 hover:text-brand"
         >
           Want a SaaS product like this for your business? Let’s build it. <Icon name="arrowUpRight" className="size-4" />

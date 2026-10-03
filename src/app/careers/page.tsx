@@ -21,7 +21,7 @@ export default function CareersPage() {
         lines={["Join the future", <Accent key="a">of tech innovation.</Accent>]}
         intro={CAREERS.intro}
       >
-        <Link href="/contact?tab=inquiry&topic=Careers" className="btn btn-primary btn-lg group mt-10">
+        <Link href="/contact?topic=Careers" className="btn btn-primary btn-lg group mt-10">
           Introduce yourself
           <span className="grid size-7 place-items-center rounded-full bg-white/15 transition-transform duration-500 group-hover:rotate-45">
             <Icon name="arrowUpRight" className="size-4" />
@@ -94,7 +94,7 @@ export default function CareersPage() {
               </div>
               <div className="flex flex-col gap-3 lg:items-end">
                 <Link
-                  href="/contact?tab=inquiry&topic=Careers"
+                  href="/contact?topic=Careers"
                   className="btn btn-lg bg-white text-ink hover:bg-brand-soft"
                 >
                   Send an introduction <Icon name="arrowRight" className="size-4" />

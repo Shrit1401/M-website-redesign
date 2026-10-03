@@ -59,13 +59,13 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
       />
 
       <PageHero
-        eyebrow={`Service · 0${idx + 1}`}
+        eyebrow={`Service · ${String(idx + 1).padStart(2, "0")}`}
         crumbs={[{ label: "Services", href: "/services" }, { label: service.title }]}
         lines={[service.title]}
         intro={service.sub}
       >
         <div className="mt-10 flex flex-wrap gap-3">
-          <Link href="/contact?engagement=hire" className="btn btn-primary btn-lg group">
+          <Link href="/quote?engagement=hire" className="btn btn-primary btn-lg group">
             Request a custom quote
             <span className="grid size-7 place-items-center rounded-full bg-white/15 transition-transform duration-500 group-hover:rotate-45">
               <Icon name="arrowUpRight" className="size-4" />
@@ -97,9 +97,9 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
               </ul>
               <div className="mt-8 rounded-2xl bg-brand-soft p-5">
                 <p className="font-serif text-2xl text-ink italic">Custom quote</p>
-                <p className="mt-1 text-xs text-brand">Pricing will be revealed shortly</p>
+                <p className="mt-1 text-xs text-brand">Priced to your needs</p>
               </div>
-              <Link href="/contact?engagement=hire" className="btn btn-primary mt-6 w-full justify-between">
+              <Link href="/quote?engagement=hire" className="btn btn-primary mt-6 w-full justify-between">
                 Start this project <Icon name="arrowRight" className="size-4" />
               </Link>
             </div>

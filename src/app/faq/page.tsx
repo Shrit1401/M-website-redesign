@@ -52,7 +52,7 @@ export default function FaqPage() {
           <div className="card mt-8 hidden rounded-3xl p-6 lg:block">
             <p className="font-medium text-ink">Still have a question?</p>
             <p className="mt-2 text-sm text-muted">We usually reply within one business day.</p>
-            <Link href="/contact?tab=inquiry" className="btn btn-primary mt-5 w-full justify-between">
+            <Link href="/contact" className="btn btn-primary mt-5 w-full justify-between">
               Ask us <Icon name="arrowRight" className="size-4" />
             </Link>
             <a href={SITE.phoneHref} className="mt-4 block text-center text-sm text-muted hover:text-brand">

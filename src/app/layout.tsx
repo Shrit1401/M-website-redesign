@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     template: "%s | Macro Software Solution",
   },
   description:
-    "Macro Software Solution builds custom software, SaaS products, websites, mobile apps and reliable IT — plus AI optimization and answer engine optimization. Every project is custom-quoted.",
+    "Macro Software Solution builds SaaS products, mobile applications, progressive web apps (PWAs), websites and custom software, and provides IT support — plus AI optimization and AEO. Every project is custom-quoted to your needs.",
   openGraph: {
     title: "Macro Software Solution",
     description: "Software for your next stage of growth.",

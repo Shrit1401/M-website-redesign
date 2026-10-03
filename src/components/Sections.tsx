@@ -1,8 +1,8 @@
+import Image from "next/image";
 import Link from "next/link";
-import { FOOTER_LINKS, PILLARS, SITE } from "@/lib/content";
+import { CUSTOM_QUOTE_NOTE, FOOTER_LINKS, PILLARS, SITE } from "@/lib/content";
 import { SERVICES, getService } from "@/lib/services";
 import { Icon } from "./Icon";
-import { Logo } from "./Logo";
 import { Magnetic, MaskLines, Reveal, Spotlight } from "./Motion";
 import { SectionHead } from "./SectionHead";
 import { ProcessSteps } from "./ProcessSteps";
@@ -43,18 +43,18 @@ export function Services() {
         index="01"
         eyebrow="Services"
         lines={["One partner.", <Serif key="l">Every layer.</Serif>]}
-        sub="From the product your customers use to the systems behind it."
+        sub="From the product your customers use to the systems behind it — every project custom-quoted to your needs."
       />
 
-      <div className="mt-16 grid gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-16 grid gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-5">
         {CORE_SERVICES.map((s, i) => (
           <Spotlight key={s.slug} className="spot group bg-white">
-            <Link href={`/services/${s.slug}`} className="flex h-full min-h-64 flex-col p-7 lg:p-8">
+            <Link href={`/services/${s.slug}`} className="flex h-full min-h-64 flex-col p-7">
               <div className="flex items-start justify-between">
                 <span className="grid size-12 place-items-center rounded-full border border-line text-brand transition-all duration-500 group-hover:border-brand group-hover:bg-brand group-hover:text-white">
                   <Icon name={s.icon} className="size-5" />
                 </span>
-                <span className="text-xs text-muted tabular-nums">0{i + 1}</span>
+                <span className="text-xs text-muted tabular-nums">{String(i + 1).padStart(2, "0")}</span>
               </div>
               <h3 className="mt-auto pt-10 text-xl font-medium tracking-tight text-ink">{s.title}</h3>
               <div className="mt-2 flex items-end justify-between gap-4">
@@ -124,7 +124,7 @@ export function Services() {
 }
 
 export function Marquee() {
-  const words = ["SaaS", "Cloud", "Custom software", "IT infrastructure", "Web", "Mobile", "Marketing", "AI & AEO"];
+  const words = ["SaaS", "Cloud", "Custom software", "IT infrastructure", "Web", "Mobile apps", "PWA", "IT support", "Marketing", "AI & AEO"];
   const row = (hidden?: boolean) => (
     <div className="flex shrink-0 items-center" aria-hidden={hidden}>
       {words.map((w, i) => (
@@ -219,8 +219,8 @@ export function FinalCta() {
             />
             <div className="mt-12">
               <Magnetic>
-                <Link href="/contact" className="btn btn-lg group bg-white pr-2 text-ink hover:bg-brand-soft">
-                  Start a conversation
+                <Link href="/quote" className="btn btn-lg group bg-white pr-2 text-ink hover:bg-brand-soft">
+                  Get a quote
                   <span className="grid size-7 place-items-center rounded-full bg-brand text-white transition-transform duration-500 group-hover:rotate-45">
                     <Icon name="arrowUpRight" className="size-4" />
                   </span>
@@ -245,59 +245,98 @@ export function FinalCta() {
 export function Footer() {
   const { address } = SITE;
   return (
-    <footer className="overflow-hidden border-t border-line bg-white">
-      <div className="mx-auto grid max-w-[1400px] gap-12 px-5 pt-16 pb-10 sm:px-10 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
+    <footer className="relative overflow-hidden bg-ink text-white">
+      <div aria-hidden className="h-[3px] bg-[linear-gradient(90deg,#0a3350,#0077b5_45%,#35a8e6)]" />
+
+      {/* Quote band */}
+      <div className="mx-auto max-w-[1400px] px-5 pt-14 sm:px-10">
+        <div className="flex flex-col gap-6 rounded-2xl border border-white/10 bg-white/[0.04] p-6 sm:p-8 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <p className="text-2xl font-medium tracking-tight">Have a project in mind?</p>
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/60">{CUSTOM_QUOTE_NOTE}</p>
+          </div>
+          <div className="flex shrink-0 flex-wrap gap-3">
+            <Link
+              href="/quote"
+              className="inline-flex items-center gap-2 rounded-lg bg-brand px-5 py-3 text-sm font-medium transition-colors hover:bg-brand-400"
+            >
+              <Icon name="receipt" className="size-4" /> Get a quote
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 rounded-lg border border-white/20 px-5 py-3 text-sm transition-colors hover:bg-white/10"
+            >
+              Contact us
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      <div className="mx-auto grid max-w-[1400px] gap-12 px-5 pt-14 pb-12 sm:px-10 lg:grid-cols-[1.1fr_1.6fr_0.8fr_0.8fr]">
         <div>
-          <Logo className="h-12 w-auto" />
-          <p className="mt-6 max-w-xs text-sm leading-relaxed text-muted">
-            Software for your next stage of growth — custom software, SaaS, cloud and reliable IT.
+          <Link href="/" aria-label="Macro Software Solution LLC — home" className="inline-block">
+            <Image
+              src="/macro-logo.png"
+              alt="Macro Software Solution LLC"
+              width={434}
+              height={146}
+              className="h-12 w-auto brightness-0 invert"
+            />
+          </Link>
+          <p className="mt-6 max-w-xs text-sm leading-relaxed text-white/60">
+            SaaS products, mobile applications, PWAs, custom software and reliable IT support for growing businesses.
           </p>
-          <address className="mt-6 space-y-2 text-sm text-ink-soft not-italic">
-            <a href={SITE.phoneHref} className="block hover:text-brand">
-              {SITE.phone}
-            </a>
-            <a href={`mailto:${SITE.email}`} className="block hover:text-brand">
+          <address className="mt-6 space-y-3 text-sm not-italic">
+            <a href={`mailto:${SITE.email}`} className="flex items-center gap-3 text-white/80 hover:text-white">
+              <Icon name="mail" className="size-4 text-[#8fd3f7]" />
               {SITE.email}
             </a>
-            <span className="block text-muted">
+            <span className="flex items-start gap-3 text-white/60">
+              <Icon name="pin" className="mt-0.5 size-4 shrink-0 text-[#8fd3f7]" />
               {address.street}, {address.city}, {address.region} {address.postal}
             </span>
-            <span className="block text-muted">{SITE.hours}</span>
+            <span className="flex items-center gap-3 text-white/60">
+              <Icon name="clock" className="size-4 text-[#8fd3f7]" />
+              {SITE.hours}
+            </span>
           </address>
         </div>
-        <FooterColumn title="Services" links={SERVICES.map((s) => ({ label: s.title, href: `/services/${s.slug}` }))} />
+        <FooterColumn
+          title="Services"
+          twoCol
+          links={SERVICES.map((s) => ({ label: s.title, href: `/services/${s.slug}` }))}
+        />
         {FOOTER_LINKS.map((col) => (
           <FooterColumn key={col.title} {...col} />
         ))}
       </div>
-      <div className="mx-auto flex max-w-[1400px] flex-col gap-2 border-t border-line px-5 py-6 text-xs text-muted sm:flex-row sm:justify-between sm:px-10">
-        <p>© {new Date().getFullYear()} Macro Software Solution LLC. All rights reserved.</p>
-        <p>SaaS + IT solutions · Palatine, Illinois</p>
+
+      <div className="border-t border-white/10">
+        <div className="mx-auto flex max-w-[1400px] flex-col gap-2 px-5 py-6 text-xs text-white/50 sm:flex-row sm:justify-between sm:px-10">
+          <p>© {new Date().getFullYear()} Macro Software Solution LLC. All rights reserved.</p>
+          <p>SaaS + IT solutions · Palatine, Illinois</p>
+        </div>
       </div>
-      <p
-        aria-hidden
-        className="-mt-[2vw] -mb-[0.22em] text-center text-[27vw] leading-none font-semibold tracking-[-0.07em] select-none"
-        style={{
-          background: "linear-gradient(180deg, rgba(0,119,181,0.16), rgba(0,119,181,0.02) 80%)",
-          WebkitBackgroundClip: "text",
-          backgroundClip: "text",
-          color: "transparent",
-        }}
-      >
-        macro
-      </p>
     </footer>
   );
 }
 
-function FooterColumn({ title, links }: { title: string; links: { label: string; href: string }[] }) {
+function FooterColumn({
+  title,
+  links,
+  twoCol,
+}: {
+  title: string;
+  links: { label: string; href: string }[];
+  twoCol?: boolean;
+}) {
   return (
     <nav aria-label={title}>
-      <p className="text-xs tracking-[0.2em] text-muted uppercase">{title}</p>
-      <ul className="mt-5 space-y-3">
+      <p className="text-xs font-medium tracking-[0.2em] text-[#8fd3f7] uppercase">{title}</p>
+      <ul className={`mt-5 gap-x-8 gap-y-3 ${twoCol ? "grid sm:grid-cols-2" : "grid"}`}>
         {links.map((l) => (
           <li key={l.href}>
-            <Link href={l.href} className="text-sm text-ink-soft transition-colors hover:text-brand">
+            <Link href={l.href} className="text-sm text-white/70 transition-colors hover:text-white">
               {l.label}
             </Link>
           </li>

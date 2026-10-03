@@ -1,6 +1,6 @@
 # Macro Software Solution LLC
 
-> Macro Software Solution LLC (Palatine, Illinois) builds custom software, SaaS products, websites and mobile apps, manages cloud and IT infrastructure, and offers digital marketing plus AI optimization and answer engine optimization (AEO). All work is custom-quoted; package pricing will be published soon.
+> Macro Software Solution LLC (Palatine, Illinois) builds custom software, SaaS products, websites, mobile applications and progressive web apps (PWAs), manages cloud and IT infrastructure, provides IT support, and offers digital marketing plus AI optimization and answer engine optimization (AEO). All work is custom-quoted based on each client's needs.
 
 Contact: hello@macrosoftwaresolution.com · +1 (224) 298-4659 · 424 N Lake Shore Dr, Palatine, IL 60067 · Mon–Fri 9AM–5PM CST
 
@@ -12,11 +12,13 @@ Contact: hello@macrosoftwaresolution.com · +1 (224) 298-4659 · 424 N Lake Shor
 - [Web Development](https://macrosoftwaresolution.com/services/web-development): fast, mobile-friendly, SEO-ready websites
 - [Website Maintenance](https://macrosoftwaresolution.com/services/website-maintenance): updates, security checks, speed monitoring
 - [Digital Marketing](https://macrosoftwaresolution.com/services/digital-marketing): SEO, social, paid ads and performance tracking
-- [Mobile Development](https://macrosoftwaresolution.com/services/mobile-development): iOS and Android apps with secure backends
+- [Mobile Applications](https://macrosoftwaresolution.com/services/mobile-development): iOS and Android apps with secure backends
+- [Progressive Web Apps (PWA)](https://macrosoftwaresolution.com/services/progressive-web-apps): installable, offline-ready web apps from one codebase
+- [IT Support](https://macrosoftwaresolution.com/services/it-support): help desk, device and user management, remote and on-site support
 - [AI Optimization & AEO](https://macrosoftwaresolution.com/services/ai-optimization): structured data, answer-ready content, AI automation
 
 ## Ways to work together
-- Career Platform: launch-ready career/hiring platform with 1:1 onboarding; client runs their own marketing
+- Custom SaaS Product: launch-ready software product with 1:1 onboarding; client runs their own marketing
 - Hire Macro: end-to-end design and development by the Macro team
 - Modifications & upgrades: changes, fixes and integrations for existing systems
 
@@ -25,4 +27,5 @@ Contact: hello@macrosoftwaresolution.com · +1 (224) 298-4659 · 424 N Lake Shor
 - [FAQ](https://macrosoftwaresolution.com/faq)
 - [Blog](https://macrosoftwaresolution.com/blog)
 - [Careers](https://macrosoftwaresolution.com/careers)
-- [Contact / requirement form](https://macrosoftwaresolution.com/contact)
+- [Get a quote](https://macrosoftwaresolution.com/quote): custom quote request form
+- [Contact](https://macrosoftwaresolution.com/contact): general inquiries, map and directions

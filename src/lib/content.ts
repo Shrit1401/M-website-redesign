@@ -14,8 +14,12 @@ export const NAV = [
   { label: "Services", href: "/services" },
   { label: "Blog", href: "/blog" },
   { label: "FAQ", href: "/faq" },
-  { label: "Contact", href: "/contact" },
+  { label: "Contact Us", href: "/contact" },
 ];
+
+/** Every engagement is priced to the client's needs; repeated wherever pricing comes up. */
+export const CUSTOM_QUOTE_NOTE =
+  "We provide custom quotes that depend on each client’s needs — scope, features, integrations and timeline.";
 
 export const FOOTER_LINKS = [
   {
@@ -24,15 +28,15 @@ export const FOOTER_LINKS = [
       { label: "About us", href: "/about" },
       { label: "Careers", href: "/careers" },
       { label: "Blog", href: "/blog" },
-      { label: "Contact", href: "/contact" },
+      { label: "FAQ", href: "/faq" },
     ],
   },
   {
-    title: "Resources",
+    title: "Get in touch",
     links: [
-      { label: "FAQ", href: "/faq" },
-      { label: "Start a project", href: "/contact" },
-      { label: "General inquiry", href: "/contact?tab=inquiry" },
+      { label: "Get a quote", href: "/quote" },
+      { label: "Contact us", href: "/contact" },
+      { label: "My Career Twin", href: "/career" },
     ],
   },
 ];
@@ -157,10 +161,12 @@ export const INQUIRY_TOPICS = [
 ];
 
 export const REQUIREMENT_SERVICES = [
-  "SaaS development",
+  "SaaS product",
+  "Mobile application",
+  "Progressive web app (PWA)",
   "Custom software",
   "Web development",
-  "Mobile development",
+  "IT support",
   "Cloud & integration",
   "IT infrastructure",
   "Website maintenance",
@@ -178,17 +184,17 @@ export const FAQS: Faq[] = [
   {
     category: "Getting started",
     q: "How much does a project with Macro Software Solution cost?",
-    a: "Every engagement is custom-quoted. We scope your requirements first, then send a clear proposal with timeline and cost. Standard package pricing will be revealed shortly — until then, submit the requirement form and we’ll respond with a custom quote.",
+    a: "Every engagement is custom-quoted, because the price depends on your needs — scope, features, integrations and timeline. Submit the form on our Get a quote page and we’ll send a clear proposal with timeline and cost.",
   },
   {
     category: "Getting started",
     q: "Do you offer custom solutions or fixed packages?",
-    a: "Custom solutions. Every project is scoped around your business goals and technical requirements, and quoted individually. Packaged plans will be announced soon.",
+    a: "Custom solutions. Every project is scoped around your business goals and technical requirements, and quoted individually.",
   },
   {
     category: "Getting started",
     q: "How do I get started?",
-    a: "Fill in the requirement form on our contact page. We review it, schedule a short discovery call, and send a custom quote — usually within one to two business days.",
+    a: "Fill in the quote form on our Get a quote page. We review it, schedule a short discovery call, and send a custom quote — usually within one to two business days.",
   },
   {
     category: "Getting started",
@@ -213,7 +219,7 @@ export const FAQS: Faq[] = [
   {
     category: "Services",
     q: "Do you build both web and mobile apps?",
-    a: "Yes. We build fast, SEO-ready websites and web apps, and native-quality iOS and Android apps with secure backends and API integrations.",
+    a: "Yes. We build fast, SEO-ready websites and web apps, installable progressive web apps (PWAs), and native-quality iOS and Android apps with secure backends and API integrations.",
   },
   {
     category: "AI & AEO",

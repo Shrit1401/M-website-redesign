@@ -10,7 +10,7 @@ import { SERVICES } from "@/lib/services";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "SaaS product development, cloud integration, custom software, IT infrastructure, web and mobile development, website maintenance, digital marketing and AI optimization.",
+    "SaaS products, mobile applications, progressive web apps (PWA), custom software, cloud integration, IT infrastructure and IT support, web development, maintenance, digital marketing and AI optimization — all custom-quoted.",
 };
 
 export default function ServicesPage() {
@@ -20,7 +20,7 @@ export default function ServicesPage() {
         eyebrow="Services"
         crumbs={[{ label: "Services" }]}
         lines={["Innovative solutions", <Accent key="a">for every need.</Accent>]}
-        intro="At Macro Software Solution LLC, we offer a comprehensive range of services designed to drive efficiency, security, and growth in your business. Explore our specialized solutions below."
+        intro="At Macro Software Solution LLC, we offer a comprehensive range of services designed to drive efficiency, security, and growth in your business. Explore our specialized solutions below — we provide custom quotes that depend on each client’s needs."
       />
 
       <section className="mx-auto max-w-[1400px] px-5 py-24 sm:px-10 lg:py-32">
@@ -33,7 +33,7 @@ export default function ServicesPage() {
                     href={`/services/${s.slug}`}
                     className="grid gap-6 py-10 sm:px-4 lg:grid-cols-[5rem_1.1fr_1fr_auto] lg:items-center lg:gap-10"
                   >
-                    <span className="text-sm text-muted tabular-nums">0{i + 1}</span>
+                    <span className="text-sm text-muted tabular-nums">{String(i + 1).padStart(2, "0")}</span>
                     <div className="flex items-start gap-5">
                       <span className="grid size-14 shrink-0 place-items-center rounded-2xl border border-line bg-white text-brand transition-all duration-500 group-hover:border-brand group-hover:bg-brand group-hover:text-white">
                         <Icon name={s.icon} className="size-6" />

@@ -26,7 +26,7 @@ export function CareerAuth() {
         <p className="mt-6 text-2xl font-medium tracking-tight text-ink">{done}</p>
         <p className="mt-2 text-sm text-muted">Accounts open at launch. We’ll be in touch.</p>
         <Link
-          href="/contact?tab=inquiry&topic=Job%20search%20marketing"
+          href="/contact?topic=Job%20search%20marketing"
           className="mt-6 inline-flex items-center gap-1.5 text-sm text-brand hover:underline"
         >
           Looking for a job? We can market you <Icon name="arrowUpRight" className="size-3.5" />

@@ -56,7 +56,7 @@ export function Hero() {
 
           <motion.div {...fadeUp(0.8)} className="mt-10 flex flex-wrap items-center gap-3">
             <Magnetic>
-              <Link href="/contact" className="btn btn-primary btn-lg group">
+              <Link href="/quote" className="btn btn-primary btn-lg group">
                 Start a project
                 <span className="grid size-7 place-items-center rounded-full bg-white/15 transition-transform duration-500 group-hover:rotate-45">
                   <Icon name="arrowUpRight" className="size-4" />

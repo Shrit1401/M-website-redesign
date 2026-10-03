@@ -41,7 +41,7 @@ export function Engagements() {
               </div>
               <p className="mt-1 inline-flex items-center gap-1.5 text-xs text-brand">
                 <span className="size-1.5 animate-pulse rounded-full bg-brand" />
-                Pricing will be revealed shortly
+                Priced to your needs
               </p>
 
               <ul className="mt-6 mb-8 space-y-3 border-t border-line pt-6">
@@ -54,7 +54,7 @@ export function Engagements() {
               </ul>
 
               <Link
-                href={`/contact?engagement=${e.id}`}
+                href={`/quote?engagement=${e.id}`}
                 className={`btn mt-auto w-full justify-between ${e.featured ? "btn-primary" : "btn-outline"}`}
               >
                 {e.cta} <Icon name="arrowRight" className="size-4" />
@@ -73,7 +73,7 @@ export function Engagements() {
       </div>
 
       <Link
-        href="/contact?engagement=unsure"
+        href="/quote?engagement=unsure"
         className="card mt-5 flex w-full items-center justify-center gap-2 rounded-3xl px-6 py-6 text-base text-ink-soft transition-colors hover:border-brand/40 hover:text-brand"
       >
         Need a custom solution? Let’s scope it together. <Icon name="arrowUpRight" className="size-4" />

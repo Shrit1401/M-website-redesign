@@ -39,7 +39,7 @@ function Success({ title, body, onReset }: { title: string; body: string; onRese
   );
 }
 
-/* ---------------- Requirement collection (multi-step) ---------------- */
+/* ---------------- Get a quote (multi-step) ---------------- */
 
 const STEPS = ["About you", "Your project", "Details"];
 
@@ -63,7 +63,7 @@ function withEngagement(f: typeof EMPTY_REQ, engagement: EngagementId) {
   return { ...f, engagement, marketing: engagement === "career" ? "self" : f.marketing };
 }
 
-function RequirementForm({ initialEngagement }: { initialEngagement: EngagementId | null }) {
+export function QuoteForm({ initialEngagement = null }: { initialEngagement?: EngagementId | null }) {
   const [step, setStep] = useState(0);
   const [form, setForm] = useState(() =>
     initialEngagement ? withEngagement(EMPTY_REQ, initialEngagement) : EMPTY_REQ,
@@ -94,7 +94,7 @@ function RequirementForm({ initialEngagement }: { initialEngagement: EngagementI
   if (status === "sent") {
     return (
       <Success
-        title="Requirements received."
+        title="Quote request received."
         body="Thanks — our team will review your project and reply with next steps and a custom quote within 1–2 business days."
         onReset={() => {
           setForm(initialEngagement ? withEngagement(EMPTY_REQ, initialEngagement) : EMPTY_REQ);
@@ -138,7 +138,7 @@ function RequirementForm({ initialEngagement }: { initialEngagement: EngagementI
       />
 
       {step === 0 && (
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <label>
             <Label>Full name</Label>
             <input
@@ -264,7 +264,7 @@ function RequirementForm({ initialEngagement }: { initialEngagement: EngagementI
       )}
 
       {step === 2 && (
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <label className="sm:col-span-2">
             <Label>Describe what you need built or changed</Label>
             <textarea
@@ -316,7 +316,7 @@ function RequirementForm({ initialEngagement }: { initialEngagement: EngagementI
           <span className="text-xs text-muted">Takes about 2 minutes.</span>
         )}
         <button type="submit" disabled={status === "sending"} className="btn btn-primary disabled:opacity-60">
-          {step < STEPS.length - 1 ? "Continue" : status === "sending" ? "Sending…" : "Request custom quote"}
+          {step < STEPS.length - 1 ? "Continue" : status === "sending" ? "Sending…" : "Get my custom quote"}
           <Icon name="arrowRight" className="size-4" />
         </button>
       </div>
@@ -328,7 +328,7 @@ function RequirementForm({ initialEngagement }: { initialEngagement: EngagementI
 
 const EMPTY_INQ = { name: "", email: "", topic: "General question", message: "", company_url: "" };
 
-function InquiryForm({ initialTopic }: { initialTopic?: string }) {
+export function InquiryForm({ initialTopic }: { initialTopic?: string }) {
   const [form, setForm] = useState(() => (initialTopic ? { ...EMPTY_INQ, topic: initialTopic } : EMPTY_INQ));
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
@@ -360,7 +360,7 @@ function InquiryForm({ initialTopic }: { initialTopic?: string }) {
             setStatus("error");
           });
       }}
-      className="grid gap-5 sm:grid-cols-2"
+      className="grid grid-cols-1 gap-5 sm:grid-cols-2"
     >
       <input
         type="text"
@@ -410,7 +410,7 @@ function InquiryForm({ initialTopic }: { initialTopic?: string }) {
         />
       </label>
       {error && <p className="text-sm text-red-600 sm:col-span-2">{error}</p>}
-      <div className="flex items-center justify-between gap-3 sm:col-span-2">
+      <div className="flex flex-wrap items-center justify-between gap-3 sm:col-span-2">
         <a href={`mailto:${SITE.email}`} className="text-sm text-muted hover:text-brand">
           or email {SITE.email}
         </a>
@@ -419,53 +419,5 @@ function InquiryForm({ initialTopic }: { initialTopic?: string }) {
         </button>
       </div>
     </form>
-  );
-}
-
-/* ---------------- Section ---------------- */
-
-export type ContactTab = "requirements" | "inquiry";
-
-/** Tabbed card holding the requirement form and the general inquiry form. Initial state comes from the URL. */
-export function ContactForms({
-  initialTab = "requirements",
-  initialEngagement = null,
-  initialTopic,
-}: {
-  initialTab?: ContactTab;
-  initialEngagement?: EngagementId | null;
-  initialTopic?: string;
-}) {
-  const [tab, setTab] = useState<ContactTab>(initialTab);
-
-  return (
-    <div className="card rounded-3xl p-6 shadow-[0_40px_80px_-50px_rgba(0,119,181,0.45)] sm:p-10">
-      <div role="tablist" aria-label="Contact type" className="mb-8 inline-flex rounded-full bg-brand-soft p-1">
-        {(
-          [
-            ["requirements", "Project requirements"],
-            ["inquiry", "General inquiry"],
-          ] as const
-        ).map(([id, label]) => (
-          <button
-            key={id}
-            role="tab"
-            type="button"
-            aria-selected={tab === id}
-            onClick={() => setTab(id)}
-            className={`rounded-full px-4 py-2 text-sm transition-colors sm:px-5 ${
-              tab === id ? "bg-white text-ink shadow-sm" : "text-ink-soft hover:text-brand"
-            }`}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
-      {tab === "requirements" ? (
-        <RequirementForm initialEngagement={initialEngagement} />
-      ) : (
-        <InquiryForm initialTopic={initialTopic} />
-      )}
-    </div>
   );
 }

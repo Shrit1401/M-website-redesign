@@ -59,6 +59,26 @@ const PATHS: Record<string, React.ReactNode> = {
       <path d="M11 18h2" />
     </>
   ),
+  pwa: (
+    <>
+      <rect x="2.5" y="4" width="19" height="14" rx="2.5" />
+      <path d="M2.5 8h19M12 10.5v5M9.5 13l2.5 2.5 2.5-2.5M8 21h8" />
+    </>
+  ),
+  headset: (
+    <>
+      <path d="M4 14v-2a8 8 0 0 1 16 0v2" />
+      <rect x="3" y="13" width="4" height="6" rx="1.5" />
+      <rect x="17" y="13" width="4" height="6" rx="1.5" />
+      <path d="M19 19c0 1.5-1.5 2.5-4 2.5h-2" />
+    </>
+  ),
+  receipt: (
+    <>
+      <path d="M6 2.5h12v19l-3-2-3 2-3-2-3 2v-19z" />
+      <path d="M9 7.5h6M9 11.5h6M9 15.5h3" />
+    </>
+  ),
   sparkles: (
     <>
       <path d="M12 3 13.9 8.1 19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z" />

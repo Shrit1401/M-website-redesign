@@ -6,7 +6,7 @@ import { SERVICES } from "./src/lib/services";
 const legacy = [
   { source: "/about-us", destination: "/about" },
   { source: "/contact-us", destination: "/contact" },
-  { source: "/pricing", destination: "/contact" },
+  { source: "/pricing", destination: "/quote" },
   { source: "/testimonials", destination: "/about" },
   { source: "/html-sitemap", destination: "/sitemap.xml" },
   ...SERVICES.map((s) => ({ source: `/${s.slug}`, destination: `/services/${s.slug}` })),

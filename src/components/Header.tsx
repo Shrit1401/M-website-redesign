@@ -4,11 +4,10 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
-import { NAV } from "@/lib/content";
+import { CUSTOM_QUOTE_NOTE, NAV } from "@/lib/content";
 import { SERVICES } from "@/lib/services";
 import { Icon } from "./Icon";
 import { Logo } from "./Logo";
-import { Magnetic } from "./Motion";
 
 export function Header() {
   const pathname = usePathname();
@@ -32,136 +31,154 @@ export function Header() {
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
   return (
-    <motion.header
-      initial={{ y: -30, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-      className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-6"
+    <header
+      className={`fixed inset-x-0 top-0 z-50 border-b bg-white transition-shadow duration-300 ${
+        scrolled || open ? "border-line shadow-[0_12px_30px_-20px_rgba(10,22,34,0.35)]" : "border-line/70"
+      }`}
     >
-      <div
-        className={`mx-auto flex h-16 max-w-[1400px] items-center justify-between rounded-full pr-2 pl-5 transition-all duration-500 sm:pl-6 ${
-          scrolled || open
-            ? "border border-line bg-white shadow-[0_10px_40px_-15px_rgba(10,22,34,0.25)]"
-            : "border border-transparent"
-        }`}
-      >
+      {/* Brand rule along the top edge */}
+      <div aria-hidden className="h-[3px] bg-[linear-gradient(90deg,#0a3350,#0077b5_45%,#35a8e6)]" />
+
+      <div className="mx-auto flex h-[68px] max-w-[1400px] items-center justify-between gap-6 px-5 sm:px-10">
         <Logo className="h-10 w-auto sm:h-11" />
 
-        <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
-          {NAV.slice(0, 5).map((item) =>
-            item.href === "/services" ? (
-              <div key={item.href} className="group relative">
-                <Link
-                  href={item.href}
-                  className={`flex items-center gap-1 rounded-full px-4 py-2 text-sm transition-colors hover:bg-brand-soft hover:text-brand ${
-                    isActive(item.href) ? "text-brand" : "text-ink-soft"
-                  }`}
-                >
-                  {item.label}
-                  <svg viewBox="0 0 24 24" className="size-3.5 transition-transform group-hover:rotate-180" aria-hidden>
-                    <path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                  </svg>
-                </Link>
-                {/* Mega-menu: opens on hover/focus-within */}
-                <div className="invisible absolute top-full left-1/2 w-[640px] -translate-x-1/2 pt-3 opacity-0 transition-all duration-300 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
-                  <div className="grid grid-cols-2 gap-1 rounded-3xl border border-line bg-white p-3 shadow-[0_30px_60px_-20px_rgba(10,22,34,0.3)]">
-                    {SERVICES.map((s) => (
-                      <Link
-                        key={s.slug}
-                        href={`/services/${s.slug}`}
-                        className="group/item flex items-start gap-3 rounded-2xl p-3 transition-colors hover:bg-brand-soft"
-                      >
-                        <span className="grid size-9 shrink-0 place-items-center rounded-xl border border-line bg-white text-brand transition-colors group-hover/item:border-brand group-hover/item:bg-brand group-hover/item:text-white">
-                          <Icon name={s.icon} className="size-4" />
-                        </span>
-                        <span>
-                          <span className="block text-sm font-medium text-ink">{s.title}</span>
-                          <span className="mt-0.5 line-clamp-1 block text-xs text-muted">{s.summary}</span>
-                        </span>
-                      </Link>
-                    ))}
-                    <Link
-                      href="/services"
-                      className="flex items-center justify-between rounded-2xl bg-ink px-4 py-3 text-sm text-white transition-colors hover:bg-brand"
-                    >
-                      All services <Icon name="arrowRight" className="size-4" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ) : (
+        <nav className="hidden h-full items-stretch lg:flex" aria-label="Primary">
+          {NAV.map((item) => {
+            const active = isActive(item.href);
+            const link = (
               <Link
-                key={item.href}
                 href={item.href}
-                className={`rounded-full px-4 py-2 text-sm transition-colors hover:bg-brand-soft hover:text-brand ${
-                  isActive(item.href) ? "text-brand" : "text-ink-soft"
+                aria-current={active ? "page" : undefined}
+                className={`relative flex h-full items-center gap-1 px-4 text-[0.92rem] font-medium transition-colors hover:text-brand ${
+                  active ? "text-brand" : "text-ink-soft"
                 }`}
               >
                 {item.label}
+                {item.href === "/services" && (
+                  <svg viewBox="0 0 24 24" className="size-3.5 transition-transform group-hover:rotate-180" aria-hidden>
+                    <path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                  </svg>
+                )}
+                {active && (
+                  <motion.span
+                    layoutId="nav-active"
+                    className="absolute inset-x-4 -bottom-px h-[3px] rounded-t-full bg-brand"
+                    transition={{ type: "spring", stiffness: 500, damping: 40 }}
+                  />
+                )}
               </Link>
-            ),
-          )}
+            );
+
+            if (item.href !== "/services") return <div key={item.href}>{link}</div>;
+
+            return (
+              <div key={item.href} className="group">
+                {link}
+                {/* Full-width services panel: opens on hover/focus-within */}
+                <div className="invisible absolute inset-x-0 top-full border-t border-line bg-white opacity-0 shadow-[0_30px_50px_-30px_rgba(10,22,34,0.35)] transition-all duration-200 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+                  <div className="mx-auto grid max-w-[1400px] gap-8 px-10 py-8 lg:grid-cols-[18rem_1fr]">
+                    <div className="flex flex-col rounded-2xl bg-ink p-6 text-white">
+                      <p className="text-xs tracking-[0.2em] text-[#8fd3f7] uppercase">Our services</p>
+                      <p className="mt-3 text-xl leading-snug font-medium">Software, apps &amp; IT — under one roof.</p>
+                      <p className="mt-3 text-sm leading-relaxed text-white/65">{CUSTOM_QUOTE_NOTE}</p>
+                      <div className="mt-auto flex flex-col gap-2 pt-6">
+                        <Link
+                          href="/quote"
+                          className="flex items-center justify-between rounded-lg bg-brand px-4 py-2.5 text-sm font-medium hover:bg-brand-400"
+                        >
+                          Get a quote <Icon name="arrowRight" className="size-4" />
+                        </Link>
+                        <Link
+                          href="/services"
+                          className="flex items-center justify-between rounded-lg border border-white/20 px-4 py-2.5 text-sm hover:bg-white/10"
+                        >
+                          All services <Icon name="arrowRight" className="size-4" />
+                        </Link>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-3 gap-1">
+                      {SERVICES.map((s) => (
+                        <Link
+                          key={s.slug}
+                          href={`/services/${s.slug}`}
+                          className="group/item flex items-start gap-3 rounded-xl p-3 transition-colors hover:bg-bg"
+                        >
+                          <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-brand-soft text-brand transition-colors group-hover/item:bg-brand group-hover/item:text-white">
+                            <Icon name={s.icon} className="size-4" />
+                          </span>
+                          <span>
+                            <span className="block text-sm font-medium text-ink group-hover/item:text-brand">
+                              {s.title}
+                            </span>
+                            <span className="mt-0.5 line-clamp-2 block text-xs leading-relaxed text-muted">
+                              {s.summary}
+                            </span>
+                          </span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </nav>
 
-        <div className="hidden items-center gap-2 lg:flex">
+        <div className="flex items-center gap-2">
           <Link
-            href="/contact"
-            className={`rounded-full px-4 py-2 text-sm transition-colors hover:text-brand ${isActive("/contact") ? "text-brand" : "text-ink-soft"}`}
+            href="/quote"
+            className={`hidden items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium text-white transition-colors sm:inline-flex ${
+              isActive("/quote") ? "bg-ink" : "bg-brand hover:bg-ink"
+            }`}
           >
-            Contact
+            <Icon name="receipt" className="size-4" />
+            Get a quote
           </Link>
-          <Magnetic strength={0.25}>
-            <Link href="/contact" className="btn btn-primary group py-2.5 pr-2 text-sm">
-              Get started
-              <span className="grid size-7 place-items-center rounded-full bg-white/15 transition-transform duration-500 group-hover:rotate-45">
-                <Icon name="arrowUpRight" className="size-3.5" />
-              </span>
-            </Link>
-          </Magnetic>
+          <button
+            className="grid size-11 place-items-center rounded-lg border border-line text-ink lg:hidden"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+          >
+            <Icon name={open ? "close" : "menu"} className="size-5" />
+          </button>
         </div>
-
-        <button
-          className="grid size-11 place-items-center rounded-full bg-ink text-white lg:hidden"
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-        >
-          <Icon name={open ? "close" : "menu"} className="size-5" />
-        </button>
       </div>
 
       <AnimatePresence>
         {open && (
           <motion.nav
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="mx-auto mt-2 max-h-[calc(100svh-6rem)] max-w-[1400px] overflow-y-auto rounded-3xl border border-line bg-white px-6 pb-6 shadow-xl lg:hidden"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="overflow-hidden border-t border-line bg-white lg:hidden"
             aria-label="Mobile"
           >
-            {NAV.map((item) => (
+            <div className="max-h-[calc(100svh-72px)] overflow-y-auto px-5 pb-8 sm:px-10">
+              {[...NAV, { label: "Careers", href: "/careers" }].map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`flex items-center justify-between border-b border-line py-4 text-xl font-medium tracking-tight ${
+                    isActive(item.href) ? "text-brand" : "text-ink"
+                  }`}
+                >
+                  {item.label}
+                  <Icon name="arrowRight" className="size-4 text-muted" />
+                </Link>
+              ))}
               <Link
-                key={item.href}
-                href={item.href}
-                className={`block border-b border-line py-4 text-2xl font-medium tracking-tight ${
-                  isActive(item.href) ? "text-brand" : "text-ink"
-                }`}
+                href="/quote"
+                className="mt-6 flex items-center justify-center gap-2 rounded-lg bg-brand px-5 py-3.5 font-medium text-white"
               >
-                {item.label}
+                <Icon name="receipt" className="size-4" />
+                Get a quote
               </Link>
-            ))}
-            <Link
-              href="/careers"
-              className="block border-b border-line py-4 text-2xl font-medium tracking-tight text-ink"
-            >
-              Careers
-            </Link>
-            <Link href="/contact" className="btn btn-primary mt-6 w-full">
-              Get started <Icon name="arrowUpRight" className="size-4" />
-            </Link>
+              <p className="mt-3 text-center text-xs text-muted">{CUSTOM_QUOTE_NOTE}</p>
+            </div>
           </motion.nav>
         )}
       </AnimatePresence>
-    </motion.header>
+    </header>
   );
 }

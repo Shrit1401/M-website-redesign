@@ -78,7 +78,7 @@ export function Faq({ items, index = "05" }: { items: FaqItem[]; index?: string 
           />
           <p className="mt-6 max-w-md text-muted">
             Straight answers about our services, quotes and how we work. Can’t find yours?{" "}
-            <Link href="/contact?tab=inquiry" className="text-brand underline-offset-4 hover:underline">
+            <Link href="/contact" className="text-brand underline-offset-4 hover:underline">
               Send us an inquiry
             </Link>
             .
