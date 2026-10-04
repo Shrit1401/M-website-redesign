@@ -1,11 +1,18 @@
 import Link from "next/link";
+import { PostCard, ProjectCard } from "@/components/Content";
 import { Hero } from "@/components/Hero";
 import { Icon } from "@/components/Icon";
 import { CountUp, Meter, Reveal } from "@/components/Motion";
 import { Accent, CONTAINER, FinalCta, Marquee, Process, SectionHead, ServiceCards, Why } from "@/components/Sections";
+import { posts, projects } from "@/lib/content/store";
 import { ABOUT, STATS, STRENGTHS } from "@/lib/site";
 
-export default function Home() {
+// Scheduled blog posts appear on their date; re-check hourly.
+export const revalidate = 3600;
+
+export default async function Home() {
+  const [work, latest] = await Promise.all([projects.published(), posts.published()]);
+
   return (
     <>
       <Hero />
@@ -97,8 +104,51 @@ export default function Home() {
         </Reveal>
       </section>
 
+      {work.length > 0 && (
+        <section className={`${CONTAINER} py-24 sm:py-32`}>
+          <SectionHead
+            align="split"
+            eyebrow="Selected work"
+            lines={[
+              "Launched, in progress",
+              <>
+                and <Accent>coming soon.</Accent>
+              </>,
+            ]}
+            intro="A few of the projects we're proud of — and a peek at what's about to launch."
+          />
+          <div className="mt-16 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {work.slice(0, 3).map((p, i) => (
+              <ProjectCard key={p.id} project={p} index={i} />
+            ))}
+          </div>
+          <Reveal>
+            <Link href="/projects" className="btn btn-outline mt-10">
+              All projects <Icon name="arrowRight" className="size-4" />
+            </Link>
+          </Reveal>
+        </section>
+      )}
+
       <Process />
       <Why />
+
+      {latest.length > 0 && (
+        <section className={`${CONTAINER} pb-24 sm:pb-32`}>
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <SectionHead eyebrow="From the blog" lines={[<>Notes from the <Accent>studio.</Accent></>]} />
+            <Link href="/blog" className="inline-flex items-center gap-2 text-sm font-semibold text-violet hover:text-ink">
+              All posts <Icon name="arrowRight" className="size-4" />
+            </Link>
+          </div>
+          <div className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {latest.slice(0, 3).map((p, i) => (
+              <PostCard key={p.id} post={p} index={i} />
+            ))}
+          </div>
+        </section>
+      )}
+
       <FinalCta />
     </>
   );

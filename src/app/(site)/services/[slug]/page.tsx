@@ -6,16 +6,8 @@ import { Icon } from "@/components/Icon";
 import { JsonLd } from "@/components/JsonLd";
 import { Reveal, Spotlight } from "@/components/Motion";
 import { CONTAINER, FinalCta, PageHero, Why } from "@/components/Sections";
-import type { ServiceInterest } from "@/lib/contracts";
 import { SERVICES, getService } from "@/lib/services";
 import { SITE } from "@/lib/site";
-
-// Preselects the contact form's "What do you need help with?" for each service page.
-const INTEREST: Record<string, ServiceInterest> = {
-  "premier-web-design-and-development-solutions": "WEB_DESIGN_DEVELOPMENT",
-  "comprehensive-web-maintenance-services": "WEB_MAINTENANCE",
-  "strategic-digital-marketing-solutions": "DIGITAL_MARKETING",
-};
 
 export function generateStaticParams() {
   return SERVICES.map((s) => ({ slug: s.slug }));
@@ -147,7 +139,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
               </a>
             </p>
           </div>
-          <ContactForm defaultService={INTEREST[slug]} />
+          <ContactForm defaultService={service.interest} />
         </div>
       </section>
 

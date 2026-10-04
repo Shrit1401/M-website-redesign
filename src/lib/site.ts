@@ -25,11 +25,13 @@ export const SITE = {
   ],
 } as const;
 
+/** Primary navigation (header and mobile menu). The logo links home, so Home isn't listed. */
 export const NAV = [
-  { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Services", href: "/services" },
-  { label: "Contact Us", href: "/contact-us" },
+  { label: "Projects", href: "/projects" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact", href: "/contact-us" },
 ] as const;
 
 export const ABOUT = {

@@ -36,6 +36,7 @@ npm run build
 | 3 | [03-api-routes.md](03-api-routes.md) | The three Route Handlers the forms already call, plus the API contract |
 | 4 | [04-payments.md](04-payments.md) | Optional: Stripe Checkout + webhook for `/make-a-payment` |
 | 5 | [05-deploy.md](05-deploy.md) | Deploying to Vercel (or Docker) with a hosted Postgres |
+| 6 | [06-admin-content.md](06-admin-content.md) | Moving the admin dashboard's projects & posts from `content/*.json` to Postgres |
 
 ## Big picture
 

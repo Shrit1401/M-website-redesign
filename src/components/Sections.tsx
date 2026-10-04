@@ -1,9 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { CAPABILITIES, PROCESS, SITE, WHY } from "@/lib/site";
 import { SERVICES } from "@/lib/services";
-import mark from "../../public/nebula-mark-white.png";
-import { NewsletterForm } from "./Forms";
 import { Icon } from "./Icon";
 import { Magnetic, MaskLines, Reveal, Spotlight } from "./Motion";
 
@@ -282,109 +279,5 @@ export function FinalCta() {
         </div>
       </Reveal>
     </section>
-  );
-}
-
-/* -------------------------------------------------------------- footer */
-
-const FOOTER_LINKS = [
-  {
-    title: "Company",
-    links: [
-      { label: "About", href: "/about" },
-      { label: "Services", href: "/services" },
-      { label: "Contact us", href: "/contact-us" },
-      { label: "Make a payment", href: "/make-a-payment" },
-    ],
-  },
-  {
-    title: "Services",
-    links: SERVICES.map((s) => ({ label: s.title, href: `/services/${s.slug}` })),
-  },
-  {
-    title: "Legal",
-    links: [
-      { label: "Privacy policy", href: "/privacy-policy" },
-      { label: "Terms & conditions", href: "/terms-and-conditions" },
-      { label: "Sitemap", href: "/sitemap.xml" },
-    ],
-  },
-];
-
-export function Footer() {
-  return (
-    <footer className="relative isolate overflow-hidden border-t border-white/[0.06] bg-bg-2">
-      <div aria-hidden className="starfield absolute inset-0 -z-10 opacity-40" />
-      <div className={`${CONTAINER} grid gap-14 pt-20 pb-12 lg:grid-cols-[1.1fr_1.9fr]`}>
-        <div>
-          <Image src={mark} alt="" className="h-14 w-auto opacity-90" />
-          <p className="mt-6 font-serif text-3xl leading-tight text-ink italic">{SITE.tagline}</p>
-          <div className="mt-8 max-w-sm">
-            <p className="mb-3 text-sm text-ink-soft">Tips and updates, now and then. No spam.</p>
-            <NewsletterForm />
-          </div>
-          <ul className="mt-8 flex gap-2">
-            {SITE.socials.map((s) => (
-              <li key={s.label}>
-                <a
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={s.label}
-                  className="grid size-11 place-items-center rounded-full border border-white/10 text-ink-soft transition-colors hover:border-violet hover:bg-violet hover:text-[#12091f]"
-                >
-                  <Icon name={s.label.toLowerCase() as "facebook" | "instagram" | "linkedin"} className="size-4" />
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-          {FOOTER_LINKS.map((col) => (
-            <div key={col.title}>
-              <p className="text-xs font-semibold tracking-[0.2em] text-muted uppercase">{col.title}</p>
-              <ul className="mt-5 space-y-3">
-                {col.links.map((l) => (
-                  <li key={l.href}>
-                    <Link href={l.href} className="text-sm text-ink-soft transition-colors hover:text-ink">
-                      {l.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-          <div>
-            <p className="text-xs font-semibold tracking-[0.2em] text-muted uppercase">Get in touch</p>
-            <address className="mt-5 space-y-3 text-sm text-ink-soft not-italic">
-              <a href={SITE.mapsUrl} target="_blank" rel="noopener noreferrer" className="block hover:text-ink">
-                {SITE.address.street}
-                <br />
-                {SITE.address.city}, {SITE.address.region} {SITE.address.postal}
-              </a>
-              <a href={SITE.phoneHref} className="block hover:text-ink">
-                {SITE.phone}
-              </a>
-              <a href={`mailto:${SITE.email}`} className="block break-all hover:text-ink">
-                {SITE.email}
-              </a>
-            </address>
-          </div>
-        </div>
-      </div>
-
-      <div className={`${CONTAINER} overflow-hidden`}>
-        <p aria-hidden className="text-outline -mb-[0.2em] text-center text-[15.5vw] leading-none font-bold tracking-[-0.05em] whitespace-nowrap select-none lg:text-[13.5rem]">
-          Nebula
-        </p>
-      </div>
-      <div className="border-t border-white/[0.06]">
-        <div className={`${CONTAINER} flex flex-col gap-2 py-6 text-xs text-muted sm:flex-row sm:justify-between`}>
-          <p>© {new Date().getFullYear()} Nebula Webtech LLC. All rights reserved.</p>
-          <p>{SITE.hours}</p>
-        </div>
-      </div>
-    </footer>
   );
 }

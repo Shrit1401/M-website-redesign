@@ -16,6 +16,10 @@
   --violet-600: #8b5cf6;
   --pink: #f06ac8;
   --star: #8fd8ff;
+  /* Status colours — UI state only, never decoration. */
+  --signal: #6ee7b7;
+  --danger: #ff7a9a;
+  --warn: #fbbf77;
 }
 
 @theme inline {
@@ -33,6 +37,9 @@
   --color-violet-600: var(--violet-600);
   --color-pink: var(--pink);
   --color-star: var(--star);
+  --color-signal: var(--signal);
+  --color-danger: var(--danger);
+  --color-warn: var(--warn);
   --font-sans: var(--font-urbanist);
   --font-serif: var(--font-serif);
 }
@@ -312,7 +319,15 @@ body::after {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* Long-form copy on legal pages. */
+/* Long-form copy: legal pages, project write-ups and blog posts (markdown via src/lib/markdown.ts). */
+.prose-nebula {
+  color: var(--ink-soft);
+  font-size: 1.0625rem;
+  line-height: 1.8;
+}
+.prose-nebula > :first-child {
+  margin-top: 0;
+}
 .prose-nebula h2 {
   margin-top: 3rem;
   font-size: 1.5rem;
@@ -321,12 +336,33 @@ body::after {
   letter-spacing: -0.02em;
   color: var(--ink);
 }
+.prose-nebula h3 {
+  margin-top: 2.25rem;
+  font-size: 1.2rem;
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.prose-nebula h4 {
+  margin-top: 2rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--violet);
+}
 .prose-nebula p {
   margin-top: 1rem;
   line-height: 1.8;
   color: var(--ink-soft);
 }
-.prose-nebula ul {
+.prose-nebula strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+.prose-nebula ul,
+.prose-nebula ol {
   margin-top: 1rem;
   display: grid;
   gap: 0.5rem;
@@ -337,7 +373,7 @@ body::after {
   line-height: 1.7;
   color: var(--ink-soft);
 }
-.prose-nebula li::before {
+.prose-nebula ul > li::before {
   content: "";
   position: absolute;
   left: 0.2rem;
@@ -348,10 +384,95 @@ body::after {
   background: var(--violet);
   box-shadow: 0 0 10px var(--violet);
 }
+.prose-nebula ol {
+  counter-reset: item;
+}
+.prose-nebula ol > li {
+  counter-increment: item;
+  padding-left: 2rem;
+}
+.prose-nebula ol > li::before {
+  content: counter(item, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  font-family: var(--font-serif), serif;
+  font-style: italic;
+  color: var(--violet);
+}
 .prose-nebula a {
   color: var(--violet);
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+.prose-nebula a:hover {
+  color: var(--ink);
+}
+.prose-nebula blockquote {
+  margin-top: 2rem;
+  border-left: 2px solid var(--violet);
+  padding-left: 1.5rem;
+  font-family: var(--font-serif), serif;
+  font-style: italic;
+  font-size: 1.5rem;
+  line-height: 1.4;
+  color: var(--ink);
+}
+.prose-nebula blockquote p {
+  color: inherit;
+  line-height: inherit;
+}
+.prose-nebula code {
+  border: 1px solid var(--line);
+  border-radius: 0.4rem;
+  background: rgb(255 255 255 / 0.05);
+  padding: 0.1em 0.4em;
+  font-size: 0.875em;
+  color: #e4d8ff;
+}
+.prose-nebula pre {
+  margin-top: 1.5rem;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
+  padding: 1.25rem 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+.prose-nebula pre code {
+  border: 0;
+  background: none;
+  padding: 0;
+  font-size: inherit;
+}
+.prose-nebula img {
+  margin-top: 2rem;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 1.25rem;
+}
+.prose-nebula hr {
+  margin: 3rem 0;
+  border: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line-strong), transparent);
+}
+.prose-nebula table {
+  margin-top: 1.5rem;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+.prose-nebula th,
+.prose-nebula td {
+  border-bottom: 1px solid var(--line);
+  padding: 0.6rem 0.75rem;
+  text-align: left;
+}
+.prose-nebula th {
+  color: var(--ink);
+  font-weight: 600;
 }
 
 @media (prefers-reduced-motion: reduce) {

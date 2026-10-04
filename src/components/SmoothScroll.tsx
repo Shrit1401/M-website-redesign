@@ -12,6 +12,18 @@ export function scrollToTarget(target: string) {
   else document.querySelector(target)?.scrollIntoView({ behavior: "smooth" });
 }
 
+/** Freezes page scrolling behind full-screen overlays such as the mobile menu. */
+export function setScrollLocked(locked: boolean) {
+  if (locked) lenis?.stop();
+  else lenis?.start();
+  document.documentElement.style.overflow = locked ? "hidden" : "";
+}
+
+export function scrollToTop() {
+  if (lenis) lenis.scrollTo(0, { duration: 1.6 });
+  else window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 

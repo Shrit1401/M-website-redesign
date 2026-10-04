@@ -1,8 +1,11 @@
 import type { IconName } from "@/components/Icon";
+import type { ServiceInterest } from "./contracts";
 
 export type Service = {
   /** Slugs match the live WordPress URLs so existing links and rankings keep working. */
   slug: string;
+  /** The matching value in the contact form and on projects (src/lib/contracts.ts). */
+  interest: ServiceInterest;
   icon: IconName;
   title: string;
   fullTitle: string;
@@ -15,6 +18,7 @@ export type Service = {
 export const SERVICES: Service[] = [
   {
     slug: "premier-web-design-and-development-solutions",
+    interest: "WEB_DESIGN_DEVELOPMENT",
     icon: "code",
     title: "Web Design & Development",
     fullTitle: "Premier Web Design and Development Solutions",
@@ -56,6 +60,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: "comprehensive-web-maintenance-services",
+    interest: "WEB_MAINTENANCE",
     icon: "shield",
     title: "Web Maintenance",
     fullTitle: "Comprehensive Web Maintenance Services",
@@ -97,6 +102,7 @@ export const SERVICES: Service[] = [
   },
   {
     slug: "strategic-digital-marketing-solutions",
+    interest: "DIGITAL_MARKETING",
     icon: "megaphone",
     title: "Digital Marketing",
     fullTitle: "Strategic Digital Marketing Solutions",
@@ -140,4 +146,8 @@ export const SERVICES: Service[] = [
 
 export function getService(slug: string) {
   return SERVICES.find((s) => s.slug === slug);
+}
+
+export function getServiceByInterest(interest: ServiceInterest) {
+  return SERVICES.find((s) => s.interest === interest);
 }
