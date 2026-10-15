@@ -33,10 +33,10 @@ export function Words({ text, className, as = "h2", delay = 0, onMount = false }
     >
       {parts.map((part, p) => {
         const mark = part.startsWith("{");
-        const words = part.replace(/[{}]/g, "").trim().split(/\s+/);
+        const words = part.replace(/[{}]/g, "").trim().split(/\s+/).filter(Boolean);
         return (
           <span key={p} className={mark ? "hl" : undefined}>
-            {words.map((w) => (
+            {words.map((w) => w === "|" ? <br key={i++} /> : (
               <motion.span
                 key={i++}
                 className="word"

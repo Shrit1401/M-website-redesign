@@ -2,18 +2,16 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import Lenis from "lenis";
 import { Arrow, EASE, Reveal, Words } from "./components/Motion.jsx";
-import { Butterfly, Flyer } from "./components/Butterfly.jsx";
-import Demo from "./components/Demo.jsx";
-import {
-  BACK_OFFICE, FAQ, LOYALTY, NAV, PERMISSIONS, PILOT, PROMO_LIMITS, PROMOTIONS, ROLES, SITE, WHY, WINGS,
-} from "./content.js";
+import { Flyer, LeafButterfly } from "./components/Butterfly.jsx";
+import Journey from "./components/Journey.jsx";
+import { FAQ, FEATURES, NAV, PILLARS, PILOT, SITE } from "./content.js";
 
 let lenis = null;
 function scrollTo(target) {
-  if (lenis) lenis.scrollTo(target, { offset: -80, duration: 1.2 });
+  if (lenis) lenis.scrollTo(target, { offset: -72, duration: 1.2 });
   else document.querySelector(target)?.scrollIntoView({ behavior: "smooth" });
 }
-const quoteHref = `mailto:${SITE.quotesEmail}?subject=Farasha%20quote`;
+const quoteHref = `mailto:${SITE.quotesEmail}?subject=Farasha%20POS%20quote`;
 
 export default function App() {
   useEffect(() => {
@@ -38,11 +36,11 @@ export default function App() {
       <Header />
       <main id="main">
         <Hero />
-        <Specimen />
-        <BackOffice />
-        <Loyalty />
-        <Why />
-        <Roles />
+        <Idea />
+        <Journey />
+        <Service />
+        <Features />
+        <Calm />
         <Pilot />
         <Faq />
         <Cta />
@@ -54,11 +52,15 @@ export default function App() {
 
 /* ───────── Header ───────── */
 
-function Logo() {
+/** Emblem + stacked FARASHA / POS SOLUTIONS, as the guidelines ask for in-product navigation. */
+function Lockup() {
   return (
-    <span className="logo">
-      <img src="/logo.png" alt="" width="36" height="36" />
-      <span>Farasha</span>
+    <span className="lockup">
+      <img src="/brand/emblem-256.png" alt="" width="40" height="40" />
+      <span className="lockup-text">
+        <span className="lockup-name">Farasha</span>
+        <span className="lockup-sub">POS Solutions</span>
+      </span>
     </span>
   );
 }
@@ -67,7 +69,7 @@ function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { scrollY } = useScroll();
-  useMotionValueEvent(scrollY, "change", (y) => setScrolled(y > 20));
+  useMotionValueEvent(scrollY, "change", (y) => setScrolled(y > 24));
 
   useEffect(() => {
     if (open) lenis?.stop();
@@ -81,17 +83,18 @@ function Header() {
   };
 
   return (
-    <header className={`header ${scrolled ? "is-scrolled" : ""}`}>
+    <header className={`header ${scrolled || open ? "is-solid" : ""}`}>
       <div className="container header-row">
-        <a href="#top" onClick={go("#top")} aria-label="Farasha home"><Logo /></a>
+        <a href="#top" onClick={go("#top")} aria-label="Farasha POS Solutions home"><Lockup /></a>
         <nav className="header-nav" aria-label="Primary">
           {NAV.map((n) => <a key={n.href} href={n.href} onClick={go(n.href)}>{n.label}</a>)}
         </nav>
         <div className="header-actions">
-          <a className="header-link" href={SITE.liveOrdering} target="_blank" rel="noreferrer">Live site ↗</a>
+          <a className="header-link" href={SITE.liveOrdering} target="_blank" rel="noreferrer">Live ordering site ↗</a>
           <a className="btn btn-green btn-sm" href={quoteHref}>Request a quote</a>
           <button className="menu-btn" aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen((o) => !o)}>
-            {open ? "Close" : "Menu"}
+            <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
+            <span className={`menu-icon ${open ? "is-open" : ""}`} aria-hidden="true"><i /><i /></span>
           </button>
         </div>
       </div>
@@ -101,9 +104,9 @@ function Header() {
             id="mobile-menu"
             className="mobile-menu"
             aria-label="Mobile"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
+            initial={{ height: 0 }}
+            animate={{ height: "auto" }}
+            exit={{ height: 0 }}
             transition={{ duration: 0.5, ease: EASE }}
           >
             <div className="container">
@@ -122,258 +125,114 @@ function Header() {
 function Hero() {
   return (
     <section id="top" className="hero">
+      <div className="hero-arcs" aria-hidden="true">
+        <span className="arc arc-ring" />
+        <span className="arc arc-fill" />
+      </div>
       <Flyer />
       <div className="container hero-inner">
-        <Reveal className="hero-labels" y={10}>
-          <span className="mono-label">Fig. 1 — <span lang="ar" dir="rtl" className="arabic">{SITE.arabic}</span> farāsha, n. butterfly</span>
-          <span className="mono-label">Point of sale for coffee houses</span>
+        <Reveal y={10}>
+          <p className="label label-mint">Complete restaurant operating system</p>
         </Reveal>
-        <Words
-          as="h1"
-          onMount
-          delay={0.1}
-          className="hero-title"
-          text="Every counter, kiosk and online order, {in one place.}"
-        />
-        <Reveal delay={0.5} className="hero-sub">
-          <p>
-            One menu for the register, the kiosk, the kitchen and your own ordering site —
-            built for coffee houses with more than one shop.
+        <Words as="h1" onMount delay={0.1} className="display hero-title" text="From first tap | {to final plate.}" />
+        <Reveal delay={0.45}>
+          <p className="hero-lede">
+            Farasha POS Solutions connects self-order, counter service and kitchen fulfilment — so every
+            team sees the same order moving forward.
           </p>
-          <div className="hero-ctas">
-            <a className="btn btn-green btn-lg" href={quoteHref}>Request a quote <Arrow /></a>
-            <a className="btn btn-line btn-lg" href="#demo" onClick={(e) => { e.preventDefault(); scrollTo("#demo"); }}>Try the demo</a>
-          </div>
+        </Reveal>
+        <Reveal delay={0.6} className="hero-ctas">
+          <a className="btn btn-green btn-lg" href={quoteHref}>Request a quote <Arrow /></a>
+          <a className="btn btn-ghost btn-lg" href="#apps" onClick={(e) => { e.preventDefault(); scrollTo("#apps"); }}>
+            See how it works
+          </a>
         </Reveal>
       </div>
-      <Reveal delay={0.7} className="container hero-demo" id="demo">
-        <Demo />
-        <p className="demo-caption mono-label">Interactive demo · sample café · tap items, switch channels, send to the kitchen</p>
-      </Reveal>
-    </section>
-  );
-}
-
-/* ───────── Specimen plate: the four wings ───────── */
-
-function Specimen() {
-  const [hover, setHover] = useState(-1);
-  const order = [0, 1, 2, 3];
-  return (
-    <section id="wings" className="section specimen">
-      <div className="container">
-        <div className="head-center">
-          <Reveal className="mono-label">Plate II · Four ways to order</Reveal>
-          <Words className="h2" text="Four wings, {one body.}" />
-          <Reveal delay={0.1}>
-            <p className="lede">Every channel runs on the same menu, the same prices and the same numbers — so your shops move together.</p>
-          </Reveal>
-        </div>
-
-        <div className="plate" onPointerLeave={() => setHover(-1)}>
-          <Reveal className="plate-figure" y={0}>
-            <Butterfly highlight={hover} flap onWing={setHover} />
-            <p className="mono-label plate-caption">Papilio farasha — four wings, one body</p>
-          </Reveal>
-          {order.map((i) => {
-            const w = WINGS[i];
-            return (
-              <Reveal
-                key={w.key}
-                delay={i * 0.08}
-                className={`plate-card plate-${i} ${hover === i ? "is-on" : ""}`}
-                onPointerEnter={() => setHover(i)}
-                onFocus={() => setHover(i)}
-                tabIndex={0}
-              >
-                <span className="plate-key" style={{ background: `var(--wing-${i + 1})` }}>{w.wing}</span>
-                <h3>{w.title}</h3>
-                <p>{w.body}</p>
-                <ul className="tags">{w.points.map((p) => <li key={p}>{p}</li>)}</ul>
-              </Reveal>
-            );
-          })}
-        </div>
+      <div className="container hero-foot">
+        <span className="label">Self order</span>
+        <span className="hero-foot-line" aria-hidden="true" />
+        <span className="label">Counter</span>
+        <span className="hero-foot-line" aria-hidden="true" />
+        <span className="label">Kitchen</span>
       </div>
     </section>
   );
 }
 
-/* ───────── Back office ───────── */
+/* ───────── Brand idea ───────── */
 
-const REPORT = [
-  { label: "Counter", value: 46, color: "var(--wing-1)" },
-  { label: "Online", value: 31, color: "var(--wing-4)" },
-  { label: "Kiosk", value: 23, color: "var(--wing-2)" },
-];
-
-function BackOffice() {
+function Idea() {
   return (
-    <section id="back-office" className="section">
-      <div className="container split">
-        <div>
-          <Reveal className="mono-label">Back office</Reveal>
-          <Words className="h2" text="All your shops, {one view.}" />
+    <section className="section light">
+      <div className="container idea">
+        <Reveal><p className="label">Foundation</p></Reveal>
+        <div className="idea-main">
+          <Words className="display display-xl" text="One order. | {Every screen.}" />
           <Reveal delay={0.1}>
-            <p className="lede">Change a price once and every counter, kiosk and online menu follows. See how each shop is really doing.</p>
+            <p className="idea-text">
+              Farasha is the connected restaurant operating system: self-order, front counter and kitchen
+              working from one menu, one order stream, and one source of truth.
+            </p>
           </Reveal>
-          <div className="features">
-            {BACK_OFFICE.map((b, i) => (
-              <Reveal key={b.title} delay={i * 0.06} className="feature">
-                <span className="feature-dot" style={{ background: `var(--wing-${i + 1})` }} />
-                <h3>{b.title}</h3>
-                <p>{b.body}</p>
+          <div className="pillars">
+            {PILLARS.map((p, i) => (
+              <Reveal key={p.title} delay={0.1 + i * 0.08} className="pillar">
+                <p className="label label-ink">{p.title}</p>
+                <p>{p.body}</p>
               </Reveal>
             ))}
           </div>
         </div>
+      </div>
+    </section>
+  );
+}
 
-        <Reveal delay={0.15} className="report">
-          <div className="report-head">
-            <div>
-              <p className="mono-label">Sales by channel</p>
-              <p className="report-title">All locations</p>
-            </div>
-            <span className="report-tag">Sample data</span>
-          </div>
-          <div className="report-stack" aria-hidden="true">
-            {REPORT.map((r, i) => (
-              <motion.span
-                key={r.label}
-                style={{ background: r.color, width: `${r.value}%` }}
-                initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.2, ease: EASE, delay: 0.2 + i * 0.15 }}
-              />
-            ))}
-          </div>
-          <ul className="report-legend">
-            {REPORT.map((r) => (
-              <li key={r.label}>
-                <i style={{ background: r.color }} />
-                <span>{r.label}</span>
-                <strong>{r.value}%</strong>
-              </li>
-            ))}
-          </ul>
-          <div className="report-filters">
-            <span className="is-on">Channel</span>
-            <span>Payment type</span>
-            <span>Order type</span>
-            <span>Employee</span>
-          </div>
+/* ───────── Photography ───────── */
+
+function Service() {
+  return (
+    <section className="service" aria-label="Service, in full flow">
+      <div className="service-grid">
+        <Reveal className="photo photo-tall" y={0}>
+          <img src="/images/service-counter.jpg" alt="A server taking an order on a tablet at the counter" loading="lazy" />
+          <h2 className="display service-title">Service,<br />in full flow.</h2>
+          <span className="photo-tag">Front of house · Real service</span>
+        </Reveal>
+        <Reveal className="photo" y={0} delay={0.1}>
+          <img src="/images/service-kiosk.jpg" alt="A guest ordering at a self-order kiosk" loading="lazy" />
+          <span className="photo-tag">Guest · Self order</span>
+        </Reveal>
+        <Reveal className="photo" y={0} delay={0.2}>
+          <img src="/images/service-kitchen.jpg" alt="Kitchen staff reading tickets on a kitchen display" loading="lazy" />
+          <span className="photo-tag">Back of house · KDS</span>
         </Reveal>
       </div>
     </section>
   );
 }
 
-/* ───────── Promotions & loyalty ───────── */
+/* ───────── Features ───────── */
 
-function QrMock() {
-  // Decorative QR-style grid (not a real code).
-  const cells = [];
-  let s = 11;
-  const rnd = () => (s = (s * 9301 + 49297) % 233280) / 233280;
-  const finder = (x, y) => [[0, 0], [14, 0], [0, 14]].some(([fx, fy]) => x >= fx && x < fx + 7 && y >= fy && y < fy + 7);
-  for (let y = 0; y < 21; y++)
-    for (let x = 0; x < 21; x++) if (!finder(x, y) && rnd() > 0.52) cells.push(<rect key={`${x}-${y}`} x={x} y={y} width="1" height="1" />);
-  const F = ({ x, y }) => (
-    <g transform={`translate(${x} ${y})`}>
-      <rect x=".5" y=".5" width="6" height="6" rx="1.4" fill="none" stroke="currentColor" />
-      <rect x="2" y="2" width="3" height="3" rx=".7" />
-    </g>
-  );
+function Features() {
   return (
-    <svg viewBox="0 0 21 21" className="qr" aria-hidden="true">
-      {cells}
-      <F x={0} y={0} /><F x={14} y={0} /><F x={0} y={14} />
-    </svg>
-  );
-}
-
-function Loyalty() {
-  const [tab, setTab] = useState("promotions");
-  return (
-    <section id="loyalty" className="section loyalty">
-      <div className="container split split-rev">
-        <Reveal className="poster-wrap">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={tab}
-              className="poster"
-              initial={{ opacity: 0, rotate: -6, y: 20 }}
-              animate={{ opacity: 1, rotate: -2, y: 0 }}
-              exit={{ opacity: 0, rotate: 4, y: -10 }}
-              transition={{ duration: 0.6, ease: EASE }}
-            >
-              <span className="poster-tag mono-label">Sample poster</span>
-              <Butterfly className="poster-bfly" />
-              {tab === "promotions" ? (
-                <>
-                  <p className="poster-title">Buy one, get one</p>
-                  <p className="poster-sub">Pastries · weekdays after 3 pm</p>
-                </>
-              ) : (
-                <>
-                  <p className="poster-title">Double points</p>
-                  <p className="poster-sub">Happy hour · join at the kiosk</p>
-                </>
-              )}
-              <QrMock />
-              <p className="poster-foot mono-label">Scan to order</p>
-            </motion.div>
-          </AnimatePresence>
-        </Reveal>
-
-        <div>
-          <Reveal className="mono-label">Promotions & loyalty</Reveal>
-          <Words className="h2" text="Give them {a reason} to come back." />
-          <div className="tabs" role="tablist" aria-label="Promotions and loyalty">
-            {[["promotions", "Promotions"], ["loyalty", "Loyalty"]].map(([k, l]) => (
-              <button key={k} role="tab" aria-selected={tab === k} className={tab === k ? "is-on" : ""} onClick={() => setTab(k)}>{l}</button>
-            ))}
-          </div>
-          <AnimatePresence mode="wait">
-            <motion.div key={tab} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.4 }}>
-              {tab === "promotions" ? (
-                <>
-                  <ul className="checks">{PROMOTIONS.map((p) => <li key={p}>{p}</li>)}</ul>
-                  <p className="small-head">Limit any offer by</p>
-                  <ul className="tags">{PROMO_LIMITS.map((p) => <li key={p}>{p}</li>)}</ul>
-                  <p className="note">Every promotion gets a QR code and a printable poster, and ends on its own on its end date.</p>
-                </>
-              ) : (
-                <>
-                  <ul className="checks">{LOYALTY.map((p) => <li key={p}>{p}</li>)}</ul>
-                  <p className="note">Guests can join rewards right at the kiosk — no app to download.</p>
-                </>
-              )}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ───────── Why ───────── */
-
-function Why() {
-  return (
-    <section className="section why">
+    <section id="features" className="section light">
       <div className="container">
-        <div className="head-center">
-          <Reveal className="mono-label">Why Farasha</Reveal>
-          <Words className="h2" text="Light on its feet. {Yours to keep.}" />
+        <div className="section-head">
+          <div>
+            <Reveal><p className="label">Beyond the counter</p></Reveal>
+            <Words className="display" text="Everything that runs | {the restaurant.}" />
+          </div>
+          <Reveal delay={0.1}>
+            <p className="section-intro">Built for coffee houses and multi-location food service. One menu across every shop, and the numbers behind it.</p>
+          </Reveal>
         </div>
-        <div className="why-grid">
-          {WHY.map((w, i) => (
-            <Reveal key={w.title} delay={i * 0.08} className="why-card">
-              <span className="why-num">{["i", "ii", "iii"][i]}.</span>
-              <h3>{w.title}</h3>
-              <p>{w.body}</p>
+        <div className="features">
+          {FEATURES.map((f, i) => (
+            <Reveal key={f.title} delay={(i % 3) * 0.08} className="feature">
+              <p className="label">{f.kicker}</p>
+              <h3>{f.title}</h3>
+              <p>{f.body}</p>
             </Reveal>
           ))}
         </div>
@@ -382,119 +241,109 @@ function Why() {
   );
 }
 
-/* ───────── Roles ───────── */
+/* ───────── Calm in the rush ───────── */
 
-function Roles() {
+const STATES = [
+  { key: "online", tone: "ok", title: "Online", body: "All screens in sync.", pill: ["ok", "Sent"] },
+  { key: "offline", tone: "warn", title: "You’re offline.", body: "Orders are saved here and will sync automatically.", pill: ["warn", "Saved"] },
+  { key: "queued", tone: "warn", title: "3 orders queued", body: "Service continues. Nothing is lost.", pill: ["warn", "Queued"] },
+  { key: "syncing", tone: "sync", title: "Back online", body: "Syncing 3 orders…", pill: ["sync", "Syncing"] },
+  { key: "synced", tone: "ok", title: "Synced", body: "3 orders sent to the kitchen.", pill: ["ok", "Sent"] },
+];
+
+function Calm() {
+  const [i, setI] = useState(1);
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = setInterval(() => setI((n) => (n + 1) % STATES.length), 2600);
+    return () => clearInterval(id);
+  }, []);
+  const s = STATES[i];
   return (
-    <section className="section roles">
-      <div className="container">
-        <div className="split split-top">
-          <div>
-            <Reveal className="mono-label">Staff roles</Reveal>
-            <Words className="h2" text="The right keys {for every apron.}" />
-          </div>
+    <section className="section calm">
+      <div className="container split">
+        <div>
+          <Reveal><p className="label label-mint">Voice</p></Reveal>
+          <Words className="display" text="Calm in | {the rush.}" />
           <Reveal delay={0.1}>
-            <p className="lede">Four roles, each building on the last. Nobody sees more than their shift needs.</p>
+            <p className="calm-text">
+              Say what changed, where the order is, and what happens next. Offline and error states should
+              reduce panic, not create it — written for guests, cashiers, servers and cooks.
+            </p>
+          </Reveal>
+          <Reveal delay={0.2} className="say-avoid">
+            <div>
+              <p className="label label-mint">Say</p>
+              <p>You’re offline. Orders are saved here and will sync automatically.</p>
+            </div>
+            <div>
+              <p className="label label-warn">Avoid</p>
+              <p>Network exception detected. Transaction replication has failed.</p>
+            </div>
           </Reveal>
         </div>
-        <Reveal className="matrix-wrap">
-          <table className="matrix">
-            <thead>
-              <tr>
-                <th scope="col"><span className="sr-only">Permission</span></th>
-                {ROLES.map((r) => <th key={r} scope="col">{r}</th>)}
-              </tr>
-            </thead>
-            <tbody>
-              {PERMISSIONS.map((p) => (
-                <tr key={p.label}>
-                  <th scope="row">{p.label}</th>
-                  {ROLES.map((r, i) => (
-                    <td key={r}>
-                      {i >= p.from ? (
-                        <motion.span
-                          className="tick"
-                          initial={{ scale: 0 }}
-                          whileInView={{ scale: 1 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.5, ease: EASE, delay: 0.1 + i * 0.08 + p.from * 0.05 }}
-                        >
-                          <span className="sr-only">Yes</span>
-                        </motion.span>
-                      ) : (
-                        <span className="dash"><span className="sr-only">No</span></span>
-                      )}
-                    </td>
-                  ))}
-                </tr>
+
+        <Reveal delay={0.15} className="status-demo">
+          <div className="status-screen">
+            <div className="screen-top">
+              <img src="/brand/emblem-256.png" alt="" width="28" height="28" />
+              <span className="label">Counter · Main St</span>
+            </div>
+            <div className="status-states" aria-hidden="true">
+              {STATES.map((x, n) => <span key={x.key} className={n === i ? "is-on" : ""} />)}
+            </div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={s.key}
+                className={`status-toast tone-${s.tone}`}
+                role="status"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.45, ease: EASE }}
+              >
+                <i aria-hidden="true" />
+                <div>
+                  <strong>{s.title}</strong>
+                  <span>{s.body}</span>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+            <ul className="status-orders">
+              {[1043, 1044, 1045].map((n) => (
+                <li key={n}>
+                  <span>#{n}</span>
+                  <em className={`pill pill-${s.pill[0]}`}>{s.pill[1]}</em>
+                </li>
               ))}
-            </tbody>
-          </table>
+            </ul>
+          </div>
         </Reveal>
       </div>
     </section>
   );
 }
 
-/* ───────── Pilot: metamorphosis ───────── */
-
-function StageIcon({ i }) {
-  if (i === 3) return <Butterfly className="stage-bfly" />;
-  return (
-    <svg viewBox="0 0 64 64" className="stage-svg" aria-hidden="true">
-      {i === 0 && (
-        <>
-          <ellipse cx="26" cy="36" rx="9" ry="12" />
-          <ellipse cx="42" cy="38" rx="7" ry="9.5" />
-        </>
-      )}
-      {i === 1 && [12, 22, 32, 42].map((x, k) => <circle key={x} cx={x} cy={38 - (k % 2) * 4} r={k === 3 ? 7 : 6} />)}
-      {i === 2 && (
-        <>
-          <path d="M32 6v8" className="stage-thread" />
-          <path d="M32 14c10 4 13 16 10 28-2 8-6 14-10 16-4-2-8-8-10-16-3-12 0-24 10-28Z" />
-          <path d="M24 30h16M23 38h18M25 46h14" className="stage-line" />
-        </>
-      )}
-    </svg>
-  );
-}
+/* ───────── Pilot ───────── */
 
 function Pilot() {
   return (
-    <section id="pilot" className="section pilot">
+    <section id="pilot" className="section light">
       <div className="container">
-        <div className="head-center">
-          <Reveal className="mono-label">Pilot program · 90 days</Reveal>
-          <Words className="h2" text="A small {metamorphosis.}" />
+        <div className="section-head">
+          <div>
+            <Reveal><p className="label">Pilot program</p></Reveal>
+            <Words className="display" text="Ninety days. | {Your decision.}" />
+          </div>
           <Reveal delay={0.1}>
-            <p className="lede">Try Farasha in one or two locations. Twelve weeks later, you decide whether to continue, expand, or stop.</p>
+            <p className="section-intro">Run Farasha in one or two locations. At week twelve you decide whether to continue, expand, or stop.</p>
           </Reveal>
         </div>
-
-        <div className="weeks" aria-hidden="true">
-          {Array.from({ length: 12 }).map((_, w) => {
-            const phase = w < 2 ? 0 : w < 3 ? 1 : 2;
-            return (
-              <motion.span
-                key={w}
-                className={`week week-${phase} ${w === 11 ? "week-last" : ""}`}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, ease: EASE, delay: w * 0.05 }}
-              >
-                {w + 1}
-              </motion.span>
-            );
-          })}
-        </div>
-
-        <ol className="stages">
+        <ol className="pilot">
           {PILOT.map((p, i) => (
-            <Reveal as="li" key={p.title} delay={i * 0.08} className="stage">
-              <div className="stage-icon"><StageIcon i={i} /></div>
-              <p className="mono-label">{p.stage} · {p.weeks}</p>
+            <Reveal as="li" key={p.title} delay={i * 0.08} className="pilot-step">
+              <span className="pilot-num">0{i + 1}</span>
+              <p className="label">{p.weeks}</p>
               <h3>{p.title}</h3>
               <p>{p.body}</p>
             </Reveal>
@@ -509,15 +358,14 @@ function Pilot() {
 
 function Faq() {
   return (
-    <section id="faq" className="section faq">
-      <div className="container split">
+    <section id="faq" className="section light faq-section">
+      <div className="container split split-top">
         <div>
-          <Reveal className="mono-label">Questions</Reveal>
-          <Words className="h2" text="Good {to know.}" />
+          <Reveal><p className="label">Questions</p></Reveal>
+          <Words className="display" text="Asked | {and answered.}" />
           <Reveal delay={0.1}>
-            <p className="lede">
-              Anything else? Write to{" "}
-              <a className="link" href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>
+            <p className="section-intro">
+              Anything else? <a className="link" href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>
             </p>
           </Reveal>
         </div>
@@ -543,20 +391,21 @@ function Faq() {
 
 function Cta() {
   return (
-    <section className="cta-section">
-      <div className="container">
-        <Reveal className="cta">
-          <div className="cta-copy">
-            <Words className="cta-title" text="Give your shops {their wings.}" />
-            <p>Start with a 90-day pilot in one or two locations.</p>
-            <div className="hero-ctas">
-              <a className="btn btn-cream btn-lg" href={quoteHref}>Request a quote <Arrow /></a>
-              <a className="btn btn-line-light btn-lg" href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>
-            </div>
-          </div>
-          <div className="cta-art" aria-hidden="true">
-            <Butterfly flap />
-          </div>
+    <section className="cta">
+      <div className="hero-arcs cta-arcs" aria-hidden="true">
+        <span className="arc arc-ring" />
+      </div>
+      <div className="container cta-inner">
+        <Reveal className="cta-bfly" y={0}>
+          <LeafButterfly flap slow />
+        </Reveal>
+        <Words className="display display-xl" text="Every order, | {moving together.}" />
+        <Reveal delay={0.15}>
+          <p className="cta-text">Start with a 90-day pilot. Set up in about two weeks, trained in one.</p>
+        </Reveal>
+        <Reveal delay={0.25} className="hero-ctas cta-ctas">
+          <a className="btn btn-green btn-lg" href={quoteHref}>Request a quote <Arrow /></a>
+          <a className="btn btn-ghost btn-lg" href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>
         </Reveal>
       </div>
     </section>
@@ -568,25 +417,26 @@ function Cta() {
 function Footer() {
   return (
     <footer className="footer">
-      <div className="container footer-row">
-        <div>
-          <Logo />
-          <p className="footer-tag">{SITE.tagline}</p>
-        </div>
-        <nav aria-label="Footer" className="footer-links">
-          {NAV.map((n) => (
-            <a key={n.href} href={n.href} onClick={(e) => { e.preventDefault(); scrollTo(n.href); }}>{n.label}</a>
-          ))}
-        </nav>
-        <div className="footer-links">
-          <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>
-          <a href={`mailto:${SITE.quotesEmail}`}>{SITE.quotesEmail}</a>
-          <a href={SITE.liveOrdering} target="_blank" rel="noreferrer">order.farashapos.com ↗</a>
+      <div className="container footer-top">
+        <img className="footer-wordmark" src="/brand/wordmark.png" alt="Farasha POS Solutions" width="600" height="225" loading="lazy" />
+        <div className="footer-cols">
+          <nav aria-label="Footer" className="footer-links">
+            <p className="label label-mint">Product</p>
+            {NAV.map((n) => (
+              <a key={n.href} href={n.href} onClick={(e) => { e.preventDefault(); scrollTo(n.href); }}>{n.label}</a>
+            ))}
+          </nav>
+          <div className="footer-links">
+            <p className="label label-mint">Contact</p>
+            <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>
+            <a href={`mailto:${SITE.quotesEmail}`}>{SITE.quotesEmail}</a>
+            <a href={SITE.liveOrdering} target="_blank" rel="noreferrer">order.farashapos.com ↗</a>
+          </div>
         </div>
       </div>
       <div className="container footer-base">
         <span>© {new Date().getFullYear()} Farasha POS Solutions</span>
-        <span lang="ar" dir="rtl" className="arabic">{SITE.arabic}</span>
+        <span>{SITE.positioning}</span>
         <span>A product of {SITE.parent}</span>
       </div>
     </footer>

@@ -1,58 +1,41 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useId, useRef } from "react";
 
-// Wing shapes, drawn for the right side and mirrored for the left.
-const UPPER = "M200 196 C 214 132, 262 66, 326 62 C 372 60, 384 104, 366 146 C 346 190, 292 214, 236 210 C 220 209, 207 204, 200 200 Z";
-const LOWER = "M200 206 C 232 210, 280 222, 300 262 C 318 298, 300 336, 264 332 C 232 328, 212 290, 204 252 C 201 236, 200 220, 200 210 Z";
-const UPPER_VEINS = "M202 198 C 240 160, 290 116, 340 90 M206 200 C 250 186, 300 170, 352 150 M210 203 C 250 204, 296 200, 330 186";
-const LOWER_VEINS = "M203 212 C 230 238, 258 268, 276 318 M204 214 C 240 228, 272 246, 296 272";
-const UPPER_SPOTS = [[318, 92, 7], [342, 120, 4.5], [300, 160, 3.5]];
-const LOWER_SPOTS = [[272, 306, 5], [288, 282, 3]];
+// The leaf-wing butterfly from the Farasha emblem, traced as one right wing
+// and mirrored for the left. Seam sits at x = 380.
+const WING =
+  "M397 268 C 440 196, 528 92, 612 30 C 636 116, 612 216, 548 262 C 528 280, 508 292, 494 304 C 526 330, 532 392, 497 438 C 448 412, 414 372, 412 326 C 410 300, 426 284, 444 268 C 474 232, 504 188, 520 156 C 478 178, 428 220, 397 268 Z";
 
-// One colour per channel: counter, kiosk, kitchen, online.
-export const WING_COLORS = ["var(--wing-1)", "var(--wing-2)", "var(--wing-3)", "var(--wing-4)"];
-
-const WINGS = [
-  { d: UPPER, veins: UPPER_VEINS, spots: UPPER_SPOTS, flip: true },
-  { d: UPPER, veins: UPPER_VEINS, spots: UPPER_SPOTS, flip: false },
-  { d: LOWER, veins: LOWER_VEINS, spots: LOWER_SPOTS, flip: true },
-  { d: LOWER, veins: LOWER_VEINS, spots: LOWER_SPOTS, flip: false },
-];
-
-/**
- * The Farasha butterfly. Four wings map to the four ordering channels.
- * highlight: wing index to emphasise (others dim), or -1 for none.
- */
-export function Butterfly({ highlight = -1, flap = false, outline = false, className = "", onWing }) {
+/** Farasha leaf butterfly. `flap` animates the wings folding toward the seam. */
+export function LeafButterfly({ flap = false, slow = false, className = "", tone = "brand" }) {
+  const id = useId().replace(/:/g, "");
   return (
-    <svg viewBox="40 40 320 320" className={`bfly ${flap ? "is-flapping" : ""} ${outline ? "is-outline" : ""} ${className}`} aria-hidden="true">
-      {WINGS.map((w, i) => (
-        <g
-          key={i}
-          className={`bfly-wing ${w.flip ? "bfly-left" : "bfly-right"} ${i > 1 ? "bfly-hind" : ""} ${highlight >= 0 && highlight !== i ? "is-dim" : ""}`}
-          onPointerEnter={onWing ? () => onWing(i) : undefined}
-        >
-          <g transform={w.flip ? "translate(400 0) scale(-1 1)" : undefined}>
-            <path d={w.d} className="bfly-fill" style={{ fill: WING_COLORS[i] }} />
-            <path d={w.veins} className="bfly-vein" />
-            {w.spots.map(([x, y, r]) => <circle key={`${x}${y}`} cx={x} cy={y} r={r} className="bfly-spot" />)}
-            <path d={w.d} className="bfly-edge" />
-          </g>
-        </g>
-      ))}
-      <g className="bfly-body">
-        <ellipse cx="200" cy="214" rx="5.5" ry="52" />
-        <circle cx="200" cy="158" r="7" />
-        <path d="M197 152 C 190 128, 176 110, 160 104" />
-        <path d="M203 152 C 210 128, 224 110, 240 104" />
-        <circle cx="160" cy="104" r="2.6" />
-        <circle cx="240" cy="104" r="2.6" />
+    <svg
+      viewBox="150 10 460 450"
+      className={`leaf ${flap ? "is-flapping" : ""} ${slow ? "is-slow" : ""} leaf-${tone} ${className}`}
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient id={`${id}l`} x1="0" y1="0" x2="0.35" y2="1">
+          <stop offset="0" stopColor="var(--leaf-l1)" />
+          <stop offset="1" stopColor="var(--leaf-l2)" />
+        </linearGradient>
+        <linearGradient id={`${id}r`} x1="1" y1="0" x2="0.65" y2="1">
+          <stop offset="0" stopColor="var(--leaf-r1)" />
+          <stop offset="1" stopColor="var(--leaf-r2)" />
+        </linearGradient>
+      </defs>
+      <g className="leaf-wing leaf-left">
+        <path d={WING} fill={`url(#${id}l)`} transform="translate(760 0) scale(-1 1)" />
+      </g>
+      <g className="leaf-wing leaf-right">
+        <path d={WING} fill={`url(#${id}r)`} />
       </g>
     </svg>
   );
 }
 
-/** A butterfly that wanders around its parent, drifts toward the cursor and leaves a dotted trail. */
-export function Flyer() {
+/** A leaf butterfly that wanders around its parent and drifts toward the cursor. */
+export function Flyer({ start = [0.72, 0.36] }) {
   const wrap = useRef(null);
   const bug = useRef(null);
   const trail = useRef(null);
@@ -60,31 +43,30 @@ export function Flyer() {
   useEffect(() => {
     const host = wrap.current?.parentElement;
     if (!host) return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let w = host.clientWidth;
     let h = host.clientHeight;
-    const pos = { x: w * 0.78, y: h * 0.3 };
+    const pos = w < 700 ? { x: w * 0.8, y: 128 } : { x: w * start[0], y: h * start[1] };
     let angle = 0;
-    const pointer = { x: 0, y: 0, active: false, at: 0 };
-    const pts = [];
-    let frame = 0;
-    let id;
-    let t = Math.random() * 100;
-    let visible = true;
-
     const place = () => {
       bug.current.style.transform = `translate(${pos.x}px, ${pos.y}px) translate(-50%, -50%) rotate(${angle}rad)`;
     };
-    if (reduced) {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       place();
       return;
     }
 
+    const pointer = { x: 0, y: 0, at: -1e9 };
+    const pts = [];
+    let frame = 0;
+    let t = 0;
+    let id;
+    let visible = true;
+
     const onMove = (e) => {
       const r = host.getBoundingClientRect();
+      if (e.clientY < r.top || e.clientY > r.bottom) return;
       pointer.x = e.clientX - r.left;
       pointer.y = e.clientY - r.top;
-      pointer.active = pointer.y > 0 && pointer.y < r.height;
       pointer.at = performance.now();
     };
     const onResize = () => {
@@ -93,33 +75,34 @@ export function Flyer() {
     };
     const io = new IntersectionObserver(([e]) => {
       visible = e.isIntersecting;
+      cancelAnimationFrame(id);
       if (visible) id = requestAnimationFrame(tick);
     });
 
     function tick(now) {
       if (!visible) return;
-      t += 0.006;
-      // Wandering path: two slow sine waves per axis.
-      let tx = w * (0.5 + 0.38 * Math.sin(t * 1.3) + 0.08 * Math.sin(t * 3.7));
-      let ty = h * (0.45 + 0.3 * Math.sin(t * 1.9 + 1.2) + 0.08 * Math.cos(t * 4.3));
-      // Curious about the cursor for a few seconds after it moves.
-      if (pointer.active && now - pointer.at < 2500) {
-        tx = tx * 0.35 + (pointer.x + 70) * 0.65;
-        ty = ty * 0.35 + (pointer.y - 50) * 0.65;
+      t += 0.005;
+      // A slow figure-of-eight on the right of the hero; on phones, kept up top, clear of the copy.
+      const narrow = w < 700;
+      let tx = w * (narrow ? 0.76 + 0.12 * Math.sin(t * 1.3) : 0.7 + 0.2 * Math.sin(t * 1.3) + 0.05 * Math.sin(t * 3.1));
+      let ty = narrow
+        ? 128 + 14 * Math.sin(t * 2.6 + 0.8)
+        : h * (0.42 + 0.22 * Math.sin(t * 2.6 + 0.8) + 0.05 * Math.cos(t * 4.1));
+      if (!narrow && now - pointer.at < 2200) {
+        tx = tx * 0.3 + (pointer.x + 60) * 0.7;
+        ty = ty * 0.3 + (pointer.y - 40) * 0.7;
       }
-      const vx = (tx - pos.x) * 0.018;
-      const vy = (ty - pos.y) * 0.018;
+      const vx = (tx - pos.x) * 0.016;
+      const vy = (ty - pos.y) * 0.016;
       pos.x += vx;
       pos.y += vy;
-      const heading = Math.atan2(vy, vx) + Math.PI / 2;
-      let diff = heading - angle;
-      diff = Math.atan2(Math.sin(diff), Math.cos(diff));
-      angle += diff * 0.06;
+      // Lean into the direction of travel, but never fly upside-down.
+      const lean = Math.max(-0.6, Math.min(0.6, vx * 0.08));
+      angle += (lean - angle) * 0.08;
       place();
-
       if (frame++ % 4 === 0) {
-        pts.push([pos.x, pos.y]);
-        if (pts.length > 70) pts.shift();
+        pts.push([pos.x, pos.y + 30]);
+        if (pts.length > 60) pts.shift();
         trail.current.setAttribute("d", pts.length > 1 ? "M" + pts.map((p) => p.map(Math.round).join(" ")).join(" L") : "");
       }
       id = requestAnimationFrame(tick);
@@ -134,7 +117,7 @@ export function Flyer() {
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("resize", onResize);
     };
-  }, []);
+  }, [start]);
 
   return (
     <div ref={wrap} className="flyer" aria-hidden="true">
@@ -142,7 +125,7 @@ export function Flyer() {
         <path ref={trail} />
       </svg>
       <div ref={bug} className="flyer-bug">
-        <Butterfly flap />
+        <LeafButterfly flap />
       </div>
     </div>
   );
