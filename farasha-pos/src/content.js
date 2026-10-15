@@ -11,8 +11,8 @@ export const SITE = {
 };
 
 export const NAV = [
-  { label: "Wings", href: "#wings" },
-  { label: "Back office", href: "#back-office" },
+  { label: "Demo", href: "#demo" },
+  { label: "Features", href: "#wings" },
   { label: "Loyalty", href: "#loyalty" },
   { label: "Pilot", href: "#pilot" },
   { label: "FAQ", href: "#faq" },
@@ -22,28 +22,28 @@ export const NAV = [
 export const WINGS = [
   {
     key: "counter",
-    wing: "Upper left",
+    wing: "A",
     title: "Counter register",
     body: "Large tap tiles, required milk and size choices, and every way to pay at the till.",
     points: ["Cash & card", "Split payment", "Tips", "Gift cards"],
   },
   {
     key: "kiosk",
-    wing: "Upper right",
+    wing: "B",
     title: "Self-order kiosk",
     body: "Guests customize and pay on their own, and can join rewards right there on the spot.",
     points: ["Customize", "Pay", "Join rewards"],
   },
   {
     key: "kitchen",
-    wing: "Lower left",
+    wing: "C",
     title: "Kitchen display",
     body: "Tickets route to the right station, with timers and one-tap ready alerts.",
     points: ["Station routing", "Timers", "Ready alerts"],
   },
   {
     key: "online",
-    wing: "Lower right",
+    wing: "D",
     title: "Online ordering",
     body: "A branded site for pickup or delivery that opens on the guest’s nearest shop.",
     points: ["Pickup", "Delivery", "Nearest shop"],
@@ -79,18 +79,22 @@ export const WHY = [
   { title: "Your data, always.", body: "You own your menu, customer, order and sales data, and can export it anytime." },
 ];
 
-export const ROLES = [
-  { title: "Cashier", body: "Rings up orders and takes payment." },
-  { title: "Shift manager", body: "Everything a cashier does, plus refunds." },
-  { title: "Manager", body: "Runs one location." },
-  { title: "Admin", body: "Oversees every location." },
+export const ROLES = ["Cashier", "Shift manager", "Manager", "Admin"];
+
+// What each role can do. A number is the first role (index) that gets it.
+export const PERMISSIONS = [
+  { label: "Ring up orders & take payment", from: 0 },
+  { label: "Issue refunds", from: 1 },
+  { label: "Run one location", from: 2 },
+  { label: "Oversee every location", from: 3 },
 ];
 
+// The 90-day pilot, told as a metamorphosis.
 export const PILOT = [
-  { weeks: "Weeks 1–2", start: 0, end: 2, title: "Set up", body: "Menu, branding, staff, payments and hardware." },
-  { weeks: "Week 3", start: 2, end: 3, title: "Train", body: "Your team learns the register, kiosk and kitchen display." },
-  { weeks: "Weeks 4–12", start: 3, end: 12, title: "Run live", body: "Real service, with weekly check-ins." },
-  { weeks: "Week 12", start: 11.6, end: 12, title: "Decide", body: "Continue, expand, or stop. Your call." },
+  { stage: "Egg", weeks: "Weeks 1–2", span: 2, title: "Set up", body: "Menu, branding, staff, payments and hardware." },
+  { stage: "Caterpillar", weeks: "Week 3", span: 1, title: "Train", body: "Your team learns the register, kiosk and kitchen display." },
+  { stage: "Chrysalis", weeks: "Weeks 4–12", span: 9, title: "Run live", body: "Real service in one or two shops, with weekly check-ins." },
+  { stage: "Butterfly", weeks: "Week 12", span: 0, title: "Decide", body: "Continue, expand, or stop. Your call." },
 ];
 
 export const FAQ = [
