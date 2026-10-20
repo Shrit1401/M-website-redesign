@@ -1,7 +1,9 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValueEvent, useScroll, useTransform } from "motion/react";
-import { LeafButterfly } from "./Butterfly.jsx";
-import { APPS, ORDER } from "../content.js";
+import { LeafButterfly } from "./Butterfly";
+import { APPS, ORDER } from "@/lib/content";
 
 const money = (n) => n.toFixed(2);
 const total = ORDER.items.reduce((s, i) => s + i.qty * i.price, 0);

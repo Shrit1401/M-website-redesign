@@ -6,23 +6,32 @@ Farasha POS Solutions Brand Guidelines (2026).
 **Brand idea — One order. Every screen.** Self-order, front counter and kitchen working from one
 menu, one order stream and one source of truth. Positioning line: *From first tap to final plate.*
 
-- **Leaf butterfly** — the two leaf-wings from the Arabic emblem, traced as SVG and animated
-  (`src/components/Butterfly.jsx`). It flies through the hero and carries an order between apps.
-- **Three apps. One service.** — scroll-driven walkthrough where order #1042 moves from the
-  self-order kiosk to the counter POS to the kitchen display (`src/components/Journey.jsx`).
-- **Calm in the rush** — live offline → queued → syncing → synced status demo, written in the brand voice.
-- Official assets only: emblem, wordmark and favicons from the logo kit in `public/brand` and `public/`;
-  photography from the guidelines in `public/images`.
+## Pages
+
+| Route | What's on it |
+| --- | --- |
+| `/` | Hero (butterfly flies inside the hero circle), brand idea, photography, links into every page, pilot teaser, CTA |
+| `/apps` | Scroll-driven kiosk → counter → kitchen walkthrough, then a deep-dive per app (register, kiosk, KDS, online, Back Office), offline states |
+| `/features` | Feature grid, promotions & loyalty, staff roles, why Farasha |
+| `/pilot` | 90-day pilot: timeline, success goals, what we need, pricing FAQ (copy from farashapos.com/pilot) |
+| `/faq` | Product & setup, pilot & pricing |
+| `/request-quote` | Quote form: locations, devices per location (live totals), products, hardware, current system, timeline |
+| `/contact` | Owned by Nebula Webtech LLC: phone, emails, address, hours + contact form |
+
+Forms validate in the browser and again in `app/api/quote` / `app/api/contact` (shared rules in `lib/forms.js`).
+Delivery uses Resend when `RESEND_API_KEY` is set (see `.env.example`); without it, `next dev` prints
+submissions to the terminal and production returns an error, so nobody is told "sent" when nothing was.
+
+- Copy lives in `lib/content.js`; tokens in `app/globals.css`. Respects `prefers-reduced-motion`.
 - Palette: Deep Forest `#03251B`, Farasha Green `#049952`, Wing Mint `#57E197`, Mist `#AEF7DB`.
-  Type: Segoe UI (falls back to the platform sans), light display, semibold tracked labels.
-- Copy lives in `src/content.js`; tokens in `src/styles.css`. Respects `prefers-reduced-motion`.
 
 ## Run
 
 ```bash
 npm install
-npm run dev      # http://localhost:5173
-npm run build    # outputs dist/
+npm run dev      # http://localhost:3000
+npm run build    # production build in .next/
+npm start
 ```
 
-Stack: Vite, React 19, motion, lenis.
+Stack: Next.js 16 (App Router), React 19, motion, lenis.
