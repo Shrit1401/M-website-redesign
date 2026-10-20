@@ -1,3 +1,4 @@
+import Journey from "@/components/Journey";
 import { Cta, Explore, Hero, Idea, PilotTeaser, Service } from "@/components/Sections";
 
 export default function Home() {
@@ -5,6 +6,7 @@ export default function Home() {
     <>
       <Hero />
       <Idea />
+      <Journey />
       <Service />
       <Explore />
       <PilotTeaser />

@@ -237,16 +237,16 @@ ol {
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  height: 96px;
+  height: 112px;
 }
 .lockup {
   display: inline-flex;
   align-items: center;
-  gap: 14px;
+  gap: 18px;
 }
 .lockup img {
-  width: 60px;
-  height: 60px;
+  width: 76px;
+  height: 76px;
   filter: drop-shadow(0 0 14px rgb(87 225 151 / 0.35));
 }
 .lockup-text {
@@ -254,16 +254,16 @@ ol {
   line-height: 1;
 }
 .lockup-name {
-  font-size: 23px;
+  font-size: 30px;
   font-weight: 400;
   letter-spacing: 0.34em;
   text-transform: uppercase;
   color: var(--mist);
 }
 .lockup-sub {
-  margin-top: 6px;
-  font-size: 10px;
-  letter-spacing: 0.42em;
+  margin-top: 9px;
+  font-size: 13px;
+  letter-spacing: 0.36em;
   text-transform: uppercase;
   color: var(--mint);
 }
@@ -335,7 +335,7 @@ ol {
 .mobile-menu .container {
   display: grid;
   align-content: start;
-  min-height: calc(100svh - 80px);
+  min-height: calc(100svh - 88px);
   padding-block: 8px 28px;
 }
 .mobile-menu a:not(.btn) {
@@ -357,7 +357,7 @@ ol {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-top: 110px;
+  padding-top: 126px;
   background: var(--forest);
   color: var(--on-dark);
   overflow: hidden;
@@ -575,7 +575,7 @@ ol {
   flex-direction: column;
   justify-content: center;
   gap: clamp(20px, 3vh, 40px);
-  padding-block: 96px 32px;
+  padding-block: 128px 32px;
   overflow: hidden;
 }
 .journey-head {
@@ -1340,14 +1340,21 @@ ol {
     display: none;
   }
   .header-row {
-    height: 80px;
+    height: 88px;
+  }
+  .lockup {
+    gap: 12px;
   }
   .lockup img {
-    width: 48px;
-    height: 48px;
+    width: 56px;
+    height: 56px;
   }
   .lockup-name {
-    font-size: 19px;
+    font-size: 22px;
+  }
+  .lockup-sub {
+    margin-top: 7px;
+    font-size: 10px;
   }
   .hero-ctas,
   .hero-ctas .btn {
@@ -1624,7 +1631,7 @@ ol {
 
 /* ───────── App deep-dives ───────── */
 .app-detail {
-  scroll-margin-top: 96px;
+  scroll-margin-top: 112px;
 }
 .app-detail + .app-detail {
   border-top: 1px solid var(--line);
@@ -2094,5 +2101,80 @@ a.contact-card:hover {
   }
   .page-hero {
     padding-top: 150px;
+  }
+}
+
+/* ───────── Home hero: live order card in the circle ───────── */
+.hero-order {
+  position: absolute;
+  z-index: 1;
+  left: 73%;
+  top: calc(48% + clamp(120px, 13vw, 230px));
+  translate: -50% 0;
+  width: 260px;
+  padding: 18px 20px 16px;
+  background: rgb(3 37 27 / 0.72);
+  border: 1px solid var(--line-dark);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--on-dark);
+  pointer-events: none;
+}
+.hero-order-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.hero-order-head .label {
+  color: var(--on-dark-soft);
+}
+.hero-order-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mint);
+}
+.hero-order-live i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--mint);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+@keyframes pulse {
+  50% { opacity: 0.3; }
+}
+.hero-order-where {
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1.1;
+}
+.hero-order-what {
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--on-dark-soft);
+}
+.hero-order-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  margin-top: 16px;
+}
+.hero-order-steps span {
+  height: 2px;
+  background: var(--line-dark);
+  transition: background 0.4s;
+}
+.hero-order-steps span.is-on {
+  background: var(--mint);
+}
+@media (max-width: 1023px) {
+  .hero-order {
+    display: none;
   }
 }

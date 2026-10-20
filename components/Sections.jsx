@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Arrow, Reveal, Words } from "./Motion";
 import { Flyer, LeafButterfly } from "./Butterfly";
+import HeroOrder from "./HeroOrder";
 import {
   APP_DETAILS,
   EXPLORE,
@@ -25,6 +26,7 @@ export function Hero() {
         <span className="arc arc-fill" />
       </div>
       <Flyer />
+      <HeroOrder />
       <div className="container hero-inner">
         <Reveal y={10}>
           <p className="label label-mint">Now onboarding pilot partners</p>
