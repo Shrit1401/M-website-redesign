@@ -570,12 +570,13 @@ ol {
 .journey-sticky {
   position: sticky;
   top: 0;
-  min-height: 100svh;
+  /* The whole walkthrough fits one viewport: header, screens, copy and the sync bar. */
+  height: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: clamp(20px, 3vh, 40px);
-  padding-block: 128px 32px;
+  gap: clamp(14px, 2.4vh, 32px);
+  padding-block: 128px clamp(16px, 3vh, 32px);
   overflow: hidden;
 }
 .journey-head {
@@ -585,7 +586,7 @@ ol {
   gap: 32px;
 }
 .journey-head .display {
-  font-size: clamp(36px, 4.4vw, 64px);
+  font-size: clamp(32px, min(4.4vw, 6.4vh), 64px);
 }
 .journey-intro {
   max-width: 36ch;
@@ -594,13 +595,18 @@ ol {
 }
 .journey-stage {
   position: relative;
-  padding-top: 92px;
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 640px;
+  display: flex;
+  flex-direction: column;
+  padding-top: clamp(64px, 9vh, 92px);
 }
 .journey-bfly {
   position: absolute;
   top: -4px;
   z-index: 3;
-  width: 84px;
+  width: clamp(56px, 8vh, 84px);
   translate: -50% 0;
   pointer-events: none;
 }
@@ -618,13 +624,17 @@ ol {
   font-variant-numeric: tabular-nums;
 }
 .journey-track {
+  flex: 1;
+  min-height: 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
 }
 .journey-col {
+  min-height: 0;
   display: grid;
-  gap: 20px;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: clamp(12px, 2vh, 20px);
   opacity: 0.45;
   transition: opacity 0.6s var(--ease);
 }
@@ -638,7 +648,7 @@ ol {
 .journey-copy {
   display: grid;
   gap: 6px;
-  padding-top: 16px;
+  padding-top: clamp(10px, 1.6vh, 16px);
   border-top: 1px solid var(--line-dark);
   position: relative;
 }
@@ -652,7 +662,7 @@ ol {
   background: var(--mint);
 }
 .journey-num {
-  font-size: 32px;
+  font-size: clamp(24px, 3.6vh, 32px);
   font-weight: 300;
   color: var(--mint);
   line-height: 1;
@@ -695,13 +705,16 @@ ol {
 
 /* Screens (kiosk / counter / KDS) */
 .screen {
-  height: clamp(230px, 33vh, 330px);
+  height: 100%;
+  min-height: 0;
+  /* Contents size from the screen's own height, so every row fits however short it gets. */
+  container-type: size;
   padding: 16px;
   border-radius: 16px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: clamp(8px, 1.3vh, 12px);
   transition: opacity 0.6s;
   box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.5);
 }
@@ -780,13 +793,15 @@ ol {
 }
 .counter-lines {
   flex: 1;
+  min-height: 0;
 }
 .counter-lines li {
   display: flex;
   justify-content: space-between;
-  padding-block: 10px;
+  padding-block: clamp(3px, 2.4cqh, 10px);
   border-bottom: 1px solid var(--line);
-  font-size: 14px;
+  font-size: clamp(12px, 5cqh, 14px);
+  line-height: 1.4;
   opacity: 0.18;
   transform: translateX(-8px);
   transition: opacity 0.5s, transform 0.5s var(--ease);
@@ -810,7 +825,8 @@ ol {
   color: var(--muted);
 }
 .counter-total strong {
-  font-size: 26px;
+  font-size: clamp(18px, 8.5cqh, 26px);
+  line-height: 1.1;
   font-weight: 300;
   font-variant-numeric: tabular-nums;
 }
@@ -1326,8 +1342,8 @@ ol {
   .journey-col.is-done .screen {
     opacity: 1;
   }
-  .screen {
-    height: 300px;
+  .journey-track {
+    display: flex;
   }
   .journey-bar {
     flex-direction: column;
@@ -2176,5 +2192,46 @@ a.contact-card:hover {
 @media (max-width: 1023px) {
   .hero-order {
     display: none;
+  }
+}
+
+/* Short viewports: keep the walkthrough in one frame — title on one line, then drop secondary copy. */
+@media (max-height: 1000px) and (min-width: 861px) {
+  .journey-head br {
+    display: none;
+  }
+}
+@media (max-height: 820px) {
+  .journey-copy p:last-child {
+    display: none;
+  }
+  .screen-top {
+    padding-bottom: 6px;
+  }
+  .journey-head .label {
+    display: none;
+  }
+}
+@media (max-height: 900px) and (max-width: 860px) {
+  .journey-num,
+  .journey-copy .label {
+    display: none;
+  }
+}
+@media (max-height: 680px) {
+  .journey-copy .label {
+    display: none;
+  }
+}
+@media (max-height: 720px) and (max-width: 860px) {
+  .journey-sticky {
+    padding-top: 104px;
+  }
+  .journey-head .label,
+  .journey-num {
+    display: none;
+  }
+  .journey-bar {
+    padding: 10px 16px;
   }
 }

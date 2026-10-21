@@ -112,7 +112,7 @@ export default function Journey() {
         <div className="container journey-head">
           <div>
             <p className="label label-mint">Product ecosystem</p>
-            <h2 className="display">Three apps.<br />One service.</h2>
+            <h2 className="display">Three apps.{" "}<br />One service.</h2>
           </div>
           <p className="journey-intro">
             Orders begin anywhere, move through one cloud service, and arrive where the team needs them.
