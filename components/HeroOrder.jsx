@@ -7,8 +7,8 @@ import { ORDER } from "@/lib/content";
 
 // One order moving through every screen, on a loop.
 const STAGES = [
-  { where: "Self order", what: "Placed at the kiosk" },
-  { where: "Counter", what: "Paid · card · tip added" },
+  { where: "Counter", what: "Rung up · guest profile attached" },
+  { where: "Kiosk", what: "Profile synced to every screen" },
   { where: "Kitchen", what: "Firing on the grill" },
   { where: "Ready", what: "Called for pickup" },
 ];

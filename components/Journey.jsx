@@ -18,28 +18,7 @@ function useTimer(running) {
   return `${String(Math.floor(secs / 60)).padStart(2, "0")}:${String(secs % 60).padStart(2, "0")}`;
 }
 
-function Kiosk({ step }) {
-  return (
-    <div className="screen screen-light">
-      <div className="screen-top">
-        <img src="/brand/emblem-256.png" alt="" width="28" height="28" />
-        <span className="label">Self order</span>
-      </div>
-      <div className="kiosk-grid">
-        {ORDER.kiosk.map((k) => (
-          <div key={k.name} className={`kiosk-tile ${k.img ? "" : "kiosk-tile-mist"}`}>
-            {k.img && <img src={k.img} alt="" style={{ objectPosition: k.pos }} loading="lazy" />}
-            <span>{k.name}</span>
-          </div>
-        ))}
-      </div>
-      <div className={`kiosk-cta ${step >= 1 ? "is-sent" : ""}`}>
-        {step >= 1 ? "Sent to kitchen ✓" : `Review order · ${money(total)}`}
-      </div>
-    </div>
-  );
-}
-
+// Step 1: the order is rung up at the counter and the guest's profile is attached.
 function Counter({ step }) {
   return (
     <div className="screen screen-light">
@@ -47,9 +26,14 @@ function Counter({ step }) {
         <img src="/brand/emblem-256.png" alt="" width="28" height="28" />
         <span className="label">Table 12 · #{ORDER.no}</span>
       </div>
+      <div className="guest-chip">
+        <span className="guest-avatar">{ORDER.guest.name[0]}</span>
+        <span>{ORDER.guest.name}</span>
+        <em>{ORDER.guest.points} pts</em>
+      </div>
       <ul className="counter-lines">
         {ORDER.items.map((i, n) => (
-          <li key={i.name} className={step >= 1 ? "is-in" : ""} style={{ transitionDelay: `${n * 0.08}s` }}>
+          <li key={i.name} className="is-in" style={{ transitionDelay: `${n * 0.08}s` }}>
             <span>{i.qty}× {i.name}</span>
             <em>{money(i.qty * i.price)}</em>
           </li>
@@ -59,8 +43,42 @@ function Counter({ step }) {
         <span>Total</span>
         <strong>{money(total)}</strong>
       </div>
-      <div className={`counter-status ${step >= 1 ? "is-on" : ""}`}>
-        <i /> {step >= 2 ? "Paid · card · tip added" : step >= 1 ? "From kiosk · awaiting payment" : "Waiting for orders"}
+      <div className="counter-status is-on">
+        <i /> {step >= 1 ? "Paid · synced to every screen" : "Paid · card · tip added"}
+      </div>
+    </div>
+  );
+}
+
+// Step 2: the same guest profile and order show up on the kiosk — it reflects everywhere.
+function Kiosk({ step }) {
+  const synced = step >= 1;
+  return (
+    <div className="screen screen-light">
+      <div className="screen-top">
+        <img src="/brand/emblem-256.png" alt="" width="28" height="28" />
+        <span className="label">Self order</span>
+      </div>
+      <div className={`guest-banner ${synced ? "is-synced" : ""}`}>
+        {synced ? (
+          <>
+            <span>Welcome back, {ORDER.guest.first}</span>
+            <em>{ORDER.guest.points} pts · synced ✓</em>
+          </>
+        ) : (
+          <span>Tap to sign in</span>
+        )}
+      </div>
+      <div className="kiosk-grid">
+        {ORDER.kiosk.map((k) => (
+          <div key={k.name} className={`kiosk-tile ${k.img ? "" : "kiosk-tile-mist"}`}>
+            {k.img && <img src={k.img} alt="" style={{ objectPosition: k.pos }} loading="lazy" />}
+            <span>{k.name}</span>
+          </div>
+        ))}
+      </div>
+      <div className={`kiosk-cta ${synced ? "is-sent" : ""}`}>
+        {synced ? `Order #${ORDER.no} · sent to kitchen ✓` : "Start an order"}
       </div>
     </div>
   );
@@ -91,7 +109,7 @@ function Kitchen({ step }) {
   );
 }
 
-const SCREENS = [Kiosk, Counter, Kitchen];
+const SCREENS = [Counter, Kiosk, Kitchen];
 
 export default function Journey() {
   const ref = useRef(null);
@@ -115,7 +133,7 @@ export default function Journey() {
             <h2 className="display">Three apps.{" "}<br />One service.</h2>
           </div>
           <p className="journey-intro">
-            Orders begin anywhere, move through one cloud service, and arrive where the team needs them.
+            The counter takes the order, the guest’s profile syncs to every screen, and the kitchen gets the ticket.
           </p>
         </div>
 

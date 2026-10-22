@@ -6,6 +6,7 @@ import {
   APP_DETAILS,
   EXPLORE,
   FEATURES,
+  INDUSTRIES,
   PILLARS,
   PILOT,
   PILOT_DETAIL,
@@ -44,9 +45,9 @@ export function Hero() {
         </Reveal>
       </div>
       <div className="container hero-foot">
-        <span className="label">Self order</span>
-        <span className="hero-foot-line" aria-hidden="true" />
         <span className="label">Counter</span>
+        <span className="hero-foot-line" aria-hidden="true" />
+        <span className="label">Kiosk</span>
         <span className="hero-foot-line" aria-hidden="true" />
         <span className="label">Kitchen</span>
       </div>
@@ -109,7 +110,22 @@ export function Idea() {
   return (
     <section className="section light">
       <div className="container idea">
-        <Reveal><p className="label">Foundation</p></Reveal>
+        <div className="idea-aside">
+          <Reveal><p className="label">Foundation</p></Reveal>
+          <Reveal delay={0.15} className="sync-hub" aria-hidden="true">
+            <span className="sync-ring" />
+            <span className="sync-orbit"><i /></span>
+            <div className="sync-core">
+              <LeafButterfly flap slow />
+              <span>#1042</span>
+            </div>
+            {["Counter", "Kiosk", "Kitchen", "Online"].map((n, i) => (
+              <span key={n} className={`sync-node sync-node-${i}`} style={{ "--i": i }}>
+                <i /> {n}
+              </span>
+            ))}
+          </Reveal>
+        </div>
         <div className="idea-main">
           <Words className="display display-xl" text="One order. | {Every screen.}" />
           <Reveal delay={0.1}>
@@ -156,12 +172,36 @@ export function Explore() {
   );
 }
 
+/* ───────── Industries ───────── */
+
+export function Industries({ dark = false }) {
+  return (
+    <section id="industries" className={`section ${dark ? "dark" : "light"}`}>
+      <div className="container">
+        <Head label="Who it’s for" title="Built for every | {counter.}" intro="Restaurants were just the start. The same system runs shops and salons, from one location to many." />
+        <div className="explore">
+          {INDUSTRIES.map((x, i) => (
+            <Reveal key={x.title} id={`industry-${x.id}`} className="industry" delay={i * 0.08}>
+              <Link href={QUOTE_HREF} className="explore-card">
+                <p className="label">{x.kicker}</p>
+                <h3>{x.title}</h3>
+                <p>{x.body}</p>
+                <span className="explore-go">Get a quote <Arrow /></span>
+              </Link>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ───────── Photography ───────── */
 
 export function Service() {
   return (
     <section className="service" aria-label="Service, in full flow">
-      <div className="service-grid">
+      <div className="container service-grid">
         <Reveal className="photo photo-tall" y={0}>
           <img src="/images/service-counter.jpg" alt="A server taking an order on a tablet at the counter" loading="lazy" />
           <h2 className="display service-title">Service,<br />in full flow.</h2>
@@ -190,10 +230,10 @@ function OnlineMock() {
         <span className="label">order.farashapos.com</span>
       </div>
       <div className="mock-row"><span>Pickup · Main St</span><em>Change</em></div>
-      <div className="mock-row"><span>1× Oat latte, large</span><em>5.75</em></div>
-      <div className="mock-row"><span>1× Almond croissant</span><em>4.25</em></div>
+      <div className="mock-row"><span>1× Grilled chicken bowl</span><em>12.50</em></div>
+      <div className="mock-row"><span>1× Fresh lemonade</span><em>3.75</em></div>
       <div className="mock-row"><span>Ready in</span><em>12 min</em></div>
-      <div className="mock-bar">Place order · 10.00</div>
+      <div className="mock-bar">Place order · 16.25</div>
     </div>
   );
 }
@@ -208,7 +248,7 @@ function BackOfficeMock() {
       <div className="mock-row"><span>Counter</span><em>$4,180</em></div>
       <div className="mock-row"><span>Kiosk</span><em>$2,940</em></div>
       <div className="mock-row"><span>Online</span><em>$1,615</em></div>
-      <div className="mock-row"><span>Pumpkin latte · price</span><em>Updated in 3 shops</em></div>
+      <div className="mock-row"><span>House burger · price</span><em>Updated in 3 shops</em></div>
       <div className="mock-bar">Export sales</div>
     </div>
   );
@@ -254,7 +294,7 @@ export function Features() {
         <Head
           label="Built for food service"
           title="Six tools, | {one system.}"
-          intro="Built for coffee houses and multi-location food service. One menu across every shop, and the numbers behind it."
+          intro="Built for restaurants of every size, from one counter to many locations. One menu across every shop, and the numbers behind it."
         />
         <div className="features">
           {FEATURES.map((f, i) => (
@@ -293,7 +333,7 @@ export function Promotions() {
         <Reveal delay={0.15} y={0}>
           <div className="poster">
             <p className="label label-ink">Limited time</p>
-            <p className="poster-title">Weekend Latte</p>
+            <p className="poster-title">Weekend Combo</p>
             <p className="poster-big">15% off</p>
             <small>any order, all weekend</small>
             <div className="poster-qr" aria-hidden="true" />
@@ -333,7 +373,7 @@ export function Why() {
   return (
     <section id="why" className="section light">
       <div className="container">
-        <Head label="Why Farasha" title="Made for the way | {coffee houses grow.}" />
+        <Head label="Why Farasha" title="Made for the way | {your restaurant grows.}" />
         <div className="cards-3">
           {WHY.map((w, i) => (
             <Reveal key={w.title} delay={i * 0.08} className="card">
@@ -394,7 +434,7 @@ export function PilotTimeline() {
   );
 }
 
-export function TwoLists({ id, left, right, dark }) {
+export function TwoLists({ id, left, right, dark, actions }) {
   const col = (c, delay) => (
     <Reveal delay={delay}>
       <p className={`label ${dark ? "label-mint" : ""}`}>{c.label}</p>
@@ -410,6 +450,12 @@ export function TwoLists({ id, left, right, dark }) {
         {col(left, 0)}
         {col(right, 0.1)}
       </div>
+      {actions && (
+        <Reveal delay={0.15} className="container hero-ctas two-col-actions">
+          <Link className="btn btn-green btn-lg" href={QUOTE_HREF}>Request a quote <Arrow /></Link>
+          <Link className={`btn ${dark ? "btn-ghost" : "btn-outline"} btn-lg`} href="/contact">Talk to us</Link>
+        </Reveal>
+      )}
     </section>
   );
 }

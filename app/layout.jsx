@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
+import { SITE } from "@/lib/content";
 import "./globals.css";
 
 export const metadata = {
@@ -9,11 +10,10 @@ export const metadata = {
     default: "Farasha POS Solutions — From first tap to final plate",
     template: "%s — Farasha POS Solutions",
   },
-  description:
-    "Farasha POS Solutions connects self-order kiosks, counter service and kitchen displays on one menu and one order stream — so every team sees the same order moving forward.",
+  description: SITE.description,
   openGraph: {
     title: "Farasha POS Solutions",
-    description: "One order. Every screen.",
+    description: SITE.description,
     images: ["/brand/wordmark.png"],
   },
   icons: {

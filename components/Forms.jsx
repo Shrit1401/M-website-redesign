@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ApiError, api } from "@/lib/api";
 import {
@@ -16,7 +16,7 @@ import {
   validateContact,
   validateQuote,
 } from "@/lib/forms";
-import { OWNER } from "@/lib/content";
+import { DONATION_TYPES, OWNER } from "@/lib/content";
 import { Arrow, EASE } from "./Motion";
 import { LeafButterfly } from "./Butterfly";
 
@@ -342,7 +342,7 @@ export function QuoteForm() {
         <button className="btn btn-green btn-lg" type="submit" disabled={status === "sending"}>
           {status === "sending" ? "Sending…" : <>Request my quote <Arrow /></>}
         </button>
-        <p>No commitment. {OWNER.name} replies within one business day.</p>
+        <p>No commitment. {OWNER.name} replies within one business day. See our <a className="link" href="/privacy">Privacy Policy</a>.</p>
       </div>
     </form>
   );
@@ -355,6 +355,18 @@ const EMPTY_CONTACT = { name: "", email: "", phone: "", business: "", topic: "",
 export function ContactForm() {
   const [form, setForm] = useState(EMPTY_CONTACT);
   const { status, setStatus, error, fields, run, clear } = useSubmit();
+
+  // The Donate page sends types without a payment link here as /contact?topic=donation&type=…
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search);
+    if (q.get("topic") !== "donation") return;
+    const type = DONATION_TYPES.find((t) => t.value === q.get("type"));
+    setForm((f) => ({
+      ...f,
+      topic: "donation",
+      message: f.message || `I’d like to make a donation${type ? `: ${type.label}` : ""}.`,
+    }));
+  }, []);
 
   const set = (k) => (e) => {
     setForm((f) => ({ ...f, [k]: e.target.value }));
@@ -413,7 +425,87 @@ export function ContactForm() {
         <button className="btn btn-green btn-lg" type="submit" disabled={status === "sending"}>
           {status === "sending" ? "Sending…" : <>Send message <Arrow /></>}
         </button>
-        <p>{OWNER.name} will contact you within one business day.</p>
+        <p>{OWNER.name} will contact you within one business day. See our <a className="link" href="/privacy">Privacy Policy</a>.</p>
+      </div>
+    </form>
+  );
+}
+
+/* ───────── Donate ───────── */
+
+const payHref = (t) => t.payUrl || `/contact?topic=donation&type=${t.value}`;
+
+/** Pick a donation type, then go to its payment page (or the contact form, for types arranged by hand). */
+export function DonateForm() {
+  const [type, setType] = useState("");
+  const [error, setError] = useState("");
+  const [leaving, setLeaving] = useState(false);
+  const chosen = DONATION_TYPES.find((t) => t.value === type);
+
+  // Deep links like /donate?type=monthly preselect the dropdown.
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get("type");
+    if (DONATION_TYPES.some((t) => t.value === q)) setType(q);
+  }, []);
+
+  function onSubmit(e) {
+    e.preventDefault();
+    if (!chosen) {
+      setError("Choose a type of donation.");
+      requestAnimationFrame(() => document.getElementById("donation-type")?.focus());
+      return;
+    }
+    setLeaving(true);
+    window.location.assign(payHref(chosen));
+  }
+
+  return (
+    <form className="form" onSubmit={onSubmit} noValidate>
+      <fieldset className="fieldset">
+        <legend>Make a donation</legend>
+        <Field label="Type of donation" name="donation-type" full error={error}>
+          <select
+            id="donation-type"
+            name="donation-type"
+            aria-invalid={error ? true : undefined}
+            aria-describedby={error ? "donation-type-error" : chosen ? "donation-type-desc" : undefined}
+            value={type}
+            onChange={(e) => {
+              setType(e.target.value);
+              setError("");
+            }}
+          >
+            <option value="" disabled>Choose a type</option>
+            {DONATION_TYPES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
+          </select>
+        </Field>
+        <AnimatePresence mode="wait" initial={false}>
+          {chosen && (
+            <motion.div
+              key={chosen.value}
+              id="donation-type-desc"
+              className="donate-chosen field-full"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.3, ease: EASE }}
+            >
+              <p className="label">{chosen.label}</p>
+              <p>{chosen.body}</p>
+              <p className="donate-next">
+                {chosen.payUrl
+                  ? "Next: our secure payment page, where you choose the amount."
+                  : "Next: a short message to our team, who will arrange it with you."}
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </fieldset>
+      <div className="form-foot">
+        <button className="btn btn-green btn-lg" type="submit" disabled={leaving}>
+          {leaving ? "Opening…" : chosen && !chosen.payUrl ? <>Arrange this donation <Arrow /></> : <>Continue to payment <Arrow /></>}
+        </button>
+        <p>Card details are entered on the payment provider’s page, never on this site. See our <a className="link" href="/refunds">Refund Policy</a>.</p>
       </div>
     </form>
   );

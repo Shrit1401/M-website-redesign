@@ -23,6 +23,7 @@ export default function PilotPage() {
       <TwoLists
         id="goals"
         dark
+        actions
         left={{ label: "What success looks like", title: "Goals we agree up front.", items: PILOT_GOALS }}
         right={{ label: "What we need from you", title: "Not much.", items: PILOT_NEEDS }}
       />

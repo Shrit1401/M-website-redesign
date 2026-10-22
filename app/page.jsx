@@ -1,5 +1,5 @@
 import Journey from "@/components/Journey";
-import { Cta, Explore, Hero, Idea, PilotTeaser, Service } from "@/components/Sections";
+import { Cta, Explore, Hero, Idea, Industries, PilotTeaser, Service } from "@/components/Sections";
 
 export default function Home() {
   return (
@@ -8,6 +8,7 @@ export default function Home() {
       <Idea />
       <Journey />
       <Service />
+      <Industries />
       <Explore />
       <PilotTeaser />
       <Cta />

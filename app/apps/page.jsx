@@ -13,9 +13,9 @@ export default function AppsPage() {
     <>
       <PageHero
         label="Product ecosystem"
-        title="Four ways to order. | {One system.}"
+        title="Multiple ways to order. | {One system.}"
         lede="Customers order the way they like. Your team sees it all in the same place, from the same menu, with the same prices."
-        anchors={APP_DETAILS.map((a) => ({ href: `#${a.id}`, label: a.kicker }))}
+        anchors={APP_DETAILS.filter((a) => a.channel).map((a) => ({ href: `#${a.id}`, label: a.kicker }))}
       />
       <Journey />
       <AppDetails />
