@@ -12,7 +12,6 @@ const DETAILS = [
   { label: "Call", value: OWNER.phone, href: OWNER.phoneHref },
   { label: "Farasha support & sales", value: SITE.contactEmail, href: `mailto:${SITE.contactEmail}` },
   { label: "Quotes", value: SITE.quotesEmail, href: `mailto:${SITE.quotesEmail}` },
-  { label: "Nebula Webtech", value: OWNER.email, href: `mailto:${OWNER.email}` },
   {
     label: "Visit",
     value: `${OWNER.address.street}, ${OWNER.address.city}, ${OWNER.address.region} ${OWNER.address.postal}`,
